@@ -2,56 +2,57 @@ const mouseSpan = document.querySelector("#mouse");
 const health = document.querySelector("#health");
 
 function setup() {
-  game.initialize()
+  game.initialize();
 }
 
 function draw() {
-  game.update()
+  game.update();
 }
 
 function mouseMoved() {
   health.style.width = "70%";
-  game.mouseMoved()
+  game.mouseMoved();
+  game.didHit();
 }
 
 class Field {
   constructor(width, height, color) {
-    Object.assign(this, { width, height, color })
+    Object.assign(this, { width, height, color });
   }
   clear() {
-    background(this.color)
+    background(this.color);
   }
   clamp(x, y) {
-    return { x: constrain(x, 0, this.width), y: constrain(y, 0, this.height) }
+    return { x: constrain(x, 0, this.width), y: constrain(y, 0, this.height) };
   }
 }
 
 class Agent {
   constructor(x, y, speed, target) {
-    Object.assign(this, { x, y, speed, target })
+    Object.assign(this, { x, y, speed, target });
   }
   move(field) {
-    const [dx, dy] = [this.target.x - this.x, this.target.y - this.y]
-    const distance = Math.hypot(dx, dy)
+    const [dx, dy] = [this.target.x - this.x, this.target.y - this.y];
+    const distance = Math.hypot(dx, dy);
     if (distance > 1) {
-      const step = this.speed / distance
-      Object.assign(this, field.clamp(this.x + (step * dx), this.y + (step * dy)))
+      const step = this.speed / distance;
+      Object.assign(this, field.clamp(this.x + step * dx, this.y + step * dy));
     }
   }
 }
 
 class Player extends Agent {
   draw() {
-    fill('blue')
-    ellipse(this.x, this.y, 10)
+    fill("blue");
+    ellipse(this.x, this.y, 10);
     mouseSpan.textContent = `(${mouseX},${mouseY})`;
   }
 }
 
 class Enemy extends Agent {
   draw() {
-    fill('rgba(255, 50, 50, 0.5)')
-    ellipse(this.x, this.y, 20, )
+    fill("rgba(255, 50, 50, 0.5)");
+    ellipse(this.x, this.y, 20);
   }
 }
 
@@ -60,30 +61,41 @@ const game = {
     const canvas = createCanvas(1000, 1000);
     canvas.parent("sketch");
     noStroke();
-    this.field = new Field(width, height, [135, 200, 230])
-    this.mouse = { x: 0, y: 0 }
-    this.player = new Player(20, 20, 2.5, this.mouse)
-    this.enemiesNumber = 3
-    this.enemies = []
+    this.field = new Field(width, height, [135, 200, 230]);
+    this.mouse = { x: 0, y: 0 };
+    this.player = new Player(20, 20, 2.5, this.mouse);
+    this.enemiesNumber = 3;
+    this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
-      this.enemies.push(new Enemy(random(width), random(height), random(1, 2), this.player));
+      this.enemies.push(
+        new Enemy(random(width), random(height), random(1, 2), this.player)
+      );
     }
-    this.hit = false
+    this.hit = false;
   },
   mouseMoved() {
-    Object.assign(this.mouse, { x: mouseX, y: mouseY })
+    Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
   update() {
-    this.field.clear()
+    this.field.clear();
     for (let agent of [this.player, ...this.enemies]) {
-      agent.move(this.field)
-      agent.draw()
+      agent.move(this.field);
+      agent.draw();
     }
+  },
+  didHit() {
+    console.log(this.enemies)
+    for (let e of this.enemies) {
+      console.log(e.y)
+      this.hit = collideCircleCircle(
+        this.player.x,
+        this.play.y,
+        10,
+        e.x,
+        e.y,
+        20
+      );
+    }
+    console.log(this.hit);
   }
-  hit(){
-    for (enemy of enemies){
-      this.hit = collideCircleCircle(this.player.x, circleY, circleDiameter, circleX2, circleY2, circleDiameter2)
-    } 
-  
-  }
-}
+};
