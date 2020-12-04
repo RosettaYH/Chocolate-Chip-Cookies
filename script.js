@@ -60,7 +60,8 @@ class Player extends Agent {
 class Enemy extends Agent {
   draw() {
     fill("rgba(255, 50, 50, 0.5)");
-    ellipse(this.x, this.y, 20);
+    image(chocolateImage, this.x-chocolateImage.width/4, this.y-chocolateImage.height/4, chocolateImage.width/2, chocolateImage.height/2)
+    //ellipse(this.x, this.y, 40);
   }
 }
 
