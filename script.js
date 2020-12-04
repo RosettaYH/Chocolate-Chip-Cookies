@@ -91,8 +91,8 @@ const game = {
         this.player.x,
         this.play.y,
         10,
-        e.x,
-        e.y,
+        this.e.x,
+        this.e.y,
         20
       );
     }
