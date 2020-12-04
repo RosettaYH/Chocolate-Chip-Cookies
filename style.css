@@ -3,9 +3,15 @@
 body {
   font-family: helvetica, arial, sans-serif;
   text-align: center;
+  
 }
 
 
 .jumbotron {
   background-color: #87c8e6;
+}
+
+.progress{
+  width: 75%;
+  margin: auto 12.5%;
 }
