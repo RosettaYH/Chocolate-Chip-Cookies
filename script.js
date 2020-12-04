@@ -91,17 +91,27 @@ const game = {
       agent.move(this.field);
       agent.draw();
     }
+    for (let enemy of this.enemies) {
+      this.hit = collideCircleCircle(
+          this.player.x,
+          this.player.y,
+          80,
+          enemy.x,
+          enemy.y,
+          40
+        );
+    }
+    console.log(this.hit);
   },
   didHit() {
     console.log(this.enemies)
-    for (let e of this.enemies) {
-      console.log(e.y)
+    for (let enemy of this.enemies) {
       this.hit = collideCircleCircle(
         this.player.x,
-        this.play.y,
+        this.player.y,
         10,
-        this.e.x,
-        this.e.y,
+        this.enemy.x,
+        this.enemy.y,
         20
       );
     }
