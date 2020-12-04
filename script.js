@@ -8,7 +8,7 @@ function setup() {
 }
 
 function draw() {
-  background(700, 700);
+  background("lightgrey");
   fill("black");
   ellipse(mouseX, mouseY, 20);
   mouseSpan.textContent = `(${mouseX},${mouseY})`;
