@@ -2,10 +2,10 @@
 
 body {
   font-family: helvetica, arial, sans-serif;
-  margin: 2em;
+  text-align: center;
 }
 
-h1 {
-  font-style: italic;
-  color: #373fff;
+
+.jumbotron {
+  background-color: #87c8e6;
 }

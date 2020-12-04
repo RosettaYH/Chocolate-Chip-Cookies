@@ -1,4 +1,5 @@
 const mouseSpan = document.querySelector("#mouse");
+const health = document.querySelector("#health");
 
 function setup() {
   game.initialize()
@@ -9,6 +10,7 @@ function draw() {
 }
 
 function mouseMoved() {
+  health.style.width = "70%";
   game.mouseMoved()
 }
 
@@ -55,10 +57,10 @@ class Enemy extends Agent {
 
 const game = {
   initialize() {
-    const canvas = createCanvas(600, 600);
+    const canvas = createCanvas(1000, 1000);
     canvas.parent("sketch");
     noStroke();
-    this.field = new Field(width, height, 'lightgray')
+    this.field = new Field(width, height, [135, 200, 230])
     this.mouse = { x: 0, y: 0 }
     this.player = new Player(20, 20, 2.5, this.mouse)
     this.enemies = [
