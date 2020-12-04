@@ -63,11 +63,12 @@ const game = {
     this.field = new Field(width, height, [135, 200, 230])
     this.mouse = { x: 0, y: 0 }
     this.player = new Player(20, 20, 2.5, this.mouse)
-    this.enemies = [
-      new Enemy(4, 5, 2, this.player),
-      new Enemy(94, 95, 1.5, this.player),
-      new Enemy(400, 503, 1.8, this.player),
-    ]
+    this.enemiesNumber = 3
+    this.enemies = []
+    for (let i = 0; i < this.enemiesNumber; i++) {
+      this.enemies.push(new Enemy(random(width), random(height), random(1, 2), this.player));
+    }
+    this.hit = false
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY })
@@ -78,5 +79,11 @@ const game = {
       agent.move(this.field)
       agent.draw()
     }
+  }
+  hit(){
+    for (enemy of enemies){
+      this.hit = collideCircleCircle(this.player.x, circleY, circleDiameter, circleX2, circleY2, circleDiameter2)
+    } 
+  
   }
 }
