@@ -1,5 +1,15 @@
-/* If you're feeling fancy you can add interactivity 
-    to your site with Javascript */
+const mouseSpan = document.querySelector("#mouse");
 
-// prints "hi" in the browser's dev tools console
-console.log("hi");
+function setup() {
+  background(700, 700);
+  const canvas = createCanvas(600, 600);
+  canvas.parent("sketch");
+  noStroke();
+}
+
+function draw() {
+  background(700, 700);
+  fill("black");
+  ellipse(mouseX, mouseY, 20);
+  mouseSpan.textContent = `(${mouseX},${mouseY})`;
+}
