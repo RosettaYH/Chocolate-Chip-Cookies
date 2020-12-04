@@ -19,7 +19,7 @@ function draw() {
 function mouseMoved() {
   //health.style.width = "70%";
   game.mouseMoved();
-  //game.didHit();
+  game.didHit();
 }
 
 class Field {
@@ -81,6 +81,8 @@ const game = {
       );
     }
     this.hit = false;
+    this.hitScore = 100;
+    health.style.width = this.hitScore+"%";
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -91,6 +93,9 @@ const game = {
       agent.move(this.field);
       agent.draw();
     }
+
+  },
+  didHit() {
     for (let enemy of this.enemies) {
       this.hit = collideCircleCircle(
           this.player.x,
@@ -100,20 +105,11 @@ const game = {
           enemy.y,
           40
         );
-    }
-    console.log(this.hit);
-  },
-  didHit() {
-    console.log(this.enemies)
-    for (let enemy of this.enemies) {
-      this.hit = collideCircleCircle(
-        this.player.x,
-        this.player.y,
-        10,
-        this.enemy.x,
-        this.enemy.y,
-        20
-      );
+      if(this.hit){
+        this.hitScore-=10
+        health.style.width = this.hitScore+"%";
+      }
+      this.hit = false
     }
     console.log(this.hit);
   }
