@@ -1,5 +1,12 @@
 const mouseSpan = document.querySelector("#mouse");
 const health = document.querySelector("#health");
+let plainCookieImage;
+let chocolateImage;
+
+function preload(){
+  plainCookieImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766")
+  chocolateImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469")
+}
 
 function setup() {
   game.initialize();
@@ -12,7 +19,7 @@ function draw() {
 function mouseMoved() {
   health.style.width = "70%";
   game.mouseMoved();
-  game.didHit();
+  //game.didHit();
 }
 
 class Field {
@@ -44,7 +51,8 @@ class Agent {
 class Player extends Agent {
   draw() {
     fill("blue");
-    ellipse(this.x, this.y, 10);
+    image(plainCookieImage, this.x-plainCookieImage.width/4, this.y-plainCookieImage.height/4, plainCookieImage.width/2, plainCookieImage.height/2)
+    //ellipse(this.x, this.y, 80);
     mouseSpan.textContent = `(${mouseX},${mouseY})`;
   }
 }
