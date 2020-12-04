@@ -6,6 +6,9 @@ body {
   
 }
 
+h1 {
+  font-family: 'Nerko One', cursive;
+}
 
 .jumbotron {
   background-color: #87c8e6;

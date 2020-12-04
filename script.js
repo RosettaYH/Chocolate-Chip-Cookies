@@ -17,7 +17,7 @@ function draw() {
 }
 
 function mouseMoved() {
-  health.style.width = "70%";
+  //health.style.width = "70%";
   game.mouseMoved();
   //game.didHit();
 }
@@ -67,7 +67,7 @@ class Enemy extends Agent {
 
 const game = {
   initialize() {
-    const canvas = createCanvas(1000, 1000);
+    const canvas = createCanvas(900, 900);
     canvas.parent("sketch");
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
