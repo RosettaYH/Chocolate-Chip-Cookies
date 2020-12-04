@@ -3,9 +3,13 @@ const health = document.querySelector("#health");
 let plainCookieImage;
 let chocolateImage;
 
-function preload(){
-  plainCookieImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766")
-  chocolateImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469")
+function preload() {
+  plainCookieImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766"
+  );
+  chocolateImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469"
+  );
 }
 
 function setup() {
@@ -51,7 +55,13 @@ class Agent {
 class Player extends Agent {
   draw() {
     fill("blue");
-    image(plainCookieImage, this.x-plainCookieImage.width/4, this.y-plainCookieImage.height/4, plainCookieImage.width/2, plainCookieImage.height/2)
+    image(
+      plainCookieImage,
+      this.x - plainCookieImage.width / 4,
+      this.y - plainCookieImage.height / 4,
+      plainCookieImage.width / 2,
+      plainCookieImage.height / 2
+    );
     //ellipse(this.x, this.y, 80);
     mouseSpan.textContent = `(${mouseX},${mouseY})`;
   }
@@ -60,7 +70,13 @@ class Player extends Agent {
 class Enemy extends Agent {
   draw() {
     fill("rgba(255, 50, 50, 0.5)");
-    image(chocolateImage, this.x-chocolateImage.width/4, this.y-chocolateImage.height/4, chocolateImage.width/2, chocolateImage.height/2)
+    image(
+      chocolateImage,
+      this.x - chocolateImage.width / 4,
+      this.y - chocolateImage.height / 4,
+      chocolateImage.width / 2,
+      chocolateImage.height / 2
+    );
     //ellipse(this.x, this.y, 40);
   }
 }
@@ -82,7 +98,7 @@ const game = {
     }
     this.hit = false;
     this.hitScore = 100;
-    health.style.width = this.hitScore+"%";
+    health.style.width = this.hitScore + "%";
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -93,11 +109,10 @@ const game = {
       agent.move(this.field);
       agent.draw();
     }
-
   },
   didHit() {
-    for (let enemy of this.enemies) {
-      this.hit = collideCircleCircle(
+      for (let enemy of this.enemies) {
+        this.hit = collideCircleCircle(
           this.player.x,
           this.player.y,
           80,
@@ -105,12 +120,12 @@ const game = {
           enemy.y,
           40
         );
-      if(this.hit){
-        this.hitScore-=10
-        health.style.width = this.hitScore+"%";
+        if (this.hit) {
+          this.hitScore -= 10;
+          health.style.width = this.hitScore + "%";
+        }
       }
-      this.hit = false
+      console.log(this.hit);
     }
-    console.log(this.hit);
-  }
+  
 };
