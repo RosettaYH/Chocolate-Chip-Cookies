@@ -28,6 +28,10 @@ function mouseMoved() {
   game.didHit();
 }
 
+function mouseClicked() {
+  let raisin = new Decoy(mouseX, mouseY);
+  raisin.draw()
+}
 class Field {
   constructor(width, height, color) {
     Object.assign(this, { width, height, color });
@@ -91,6 +95,7 @@ class Decoy {
   draw(){
     fill("blue")
     image(raisinImage, this.x, this.y, raisinImage.width, raisinImage.height)
+    console.log("drew raisin")
   }
 }
 
@@ -139,9 +144,5 @@ const game = {
         }
       }
       console.log(this.hit);
-    },
-  mouseClicked() {
-    console.log("click")
-  }
-  
+    }
 };
