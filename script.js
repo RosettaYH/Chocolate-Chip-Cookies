@@ -86,15 +86,12 @@ class Enemy extends Agent {
   }
 }
 
-class Decoy {
+class Decoy { //click to drop a decoy raisin, will implement feature to make raisin disappear after 5 seconds
   constructor(x, y){
     Object.assign(this, {x, y})
-    console.log("constructed")
   }
   draw(){
-    fill("blue")
-    image(raisinImage, this.x, this.y, raisinImage.width, raisinImage.height)
-    console.log("drew raisin")
+    image(raisinImage, this.x - raisinImage.width/2, this.y - raisinImage.height/2, raisinImage.width, raisinImage.height)
   }
 }
 
@@ -124,13 +121,12 @@ const game = {
   },
   update() {
     this.field.clear();
+    if(this.existingDecoy){
+      this.raisin.draw()
+    }
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
       agent.draw();
-    };
-    if(this.existingDecoy){
-      //this.raisin = new Decoy(mouseX, mouseY)
-      this.raisin.draw()
     }
   },
   didHit() {
@@ -151,9 +147,8 @@ const game = {
       console.log(this.hit);
     },
   mouseClicked(){
-    existingDecoy = true;
+    this.existingDecoy = true;
     this.raisin = new Decoy(mouseX, mouseY)
-    console.log(`decoy: ${existingDecoy}`)
     console.log(this.raisin)
   }
 };
