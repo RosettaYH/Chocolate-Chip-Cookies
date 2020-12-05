@@ -29,8 +29,7 @@ function mouseMoved() {
 }
 
 function mouseClicked() {
-  let raisin = new Decoy(mouseX, mouseY);
-  raisin.draw()
+  game.mouseClicked();
 }
 class Field {
   constructor(width, height, color) {
@@ -117,6 +116,8 @@ const game = {
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
+    this.existingDecoy = false;
+    this.raisin = {}
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -126,6 +127,10 @@ const game = {
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
       agent.draw();
+    };
+    if(this.existingDecoy){
+      //this.raisin = new Decoy(mouseX, mouseY)
+      this.raisin.draw()
     }
   },
   didHit() {
@@ -144,5 +149,11 @@ const game = {
         }
       }
       console.log(this.hit);
-    }
+    },
+  mouseClicked(){
+    existingDecoy = true;
+    this.raisin = new Decoy(mouseX, mouseY)
+    console.log(`decoy: ${existingDecoy}`)
+    console.log(this.raisin)
+  }
 };
