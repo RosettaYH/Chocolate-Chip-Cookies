@@ -2,6 +2,7 @@ const mouseSpan = document.querySelector("#mouse");
 const health = document.querySelector("#health");
 let plainCookieImage;
 let chocolateImage;
+let raisinImage;
 
 function preload() {
   plainCookieImage = loadImage(
@@ -10,6 +11,7 @@ function preload() {
   chocolateImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469"
   );
+  raisinImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Frasin.png?v=1607118805816")
 }
 
 function setup() {
@@ -81,6 +83,12 @@ class Enemy extends Agent {
   }
 }
 
+class Decoy {
+  draw(){
+    image(raisinImage, mouseX, mouseY)
+  }
+}
+
 const game = {
   initialize() {
     const canvas = createCanvas(900, 900);
@@ -126,6 +134,9 @@ const game = {
         }
       }
       console.log(this.hit);
-    }
+    },
+  mousePressed() {
+    
+  }
   
 };
