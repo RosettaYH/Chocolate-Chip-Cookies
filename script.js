@@ -84,8 +84,13 @@ class Enemy extends Agent {
 }
 
 class Decoy {
+  constructor(x, y){
+    Object.assign(this, {x, y})
+    console.log("constructed")
+  }
   draw(){
-    image(raisinImage, mouseX, mouseY)
+    fill("blue")
+    image(raisinImage, this.x, this.y, raisinImage.width, raisinImage.height)
   }
 }
 
@@ -135,8 +140,8 @@ const game = {
       }
       console.log(this.hit);
     },
-  mousePressed() {
-    
+  mouseClicked() {
+    console.log("click")
   }
   
 };
