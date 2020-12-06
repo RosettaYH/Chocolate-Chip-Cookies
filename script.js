@@ -7,8 +7,16 @@ let chocolateChipCookieImage;
 let sugarImage;
 let jarImage;
 
+let level = 0;
+
 let isPlaying = true;
 
+
+function levelClicked(levelId){
+  level = levelId
+  game.initialize();
+  
+}
 function preload() {
   plainCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766"
@@ -178,7 +186,7 @@ const game = {
       5,
       this.mouse
     );
-    this.enemiesNumber = 3;
+    this.enemiesNumber = 3*level;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
       this.enemies.push(
@@ -253,8 +261,7 @@ const game = {
   },
   didBoost() {
     let numHit = 0;
-    if (frameCount % 300 === 0) {
-      console.log("frame");
+    if (frameCount % (300*level) === 0) {
       this.boost = new Boost(
         random(
           jarImage.width / 2.5,
@@ -285,7 +292,6 @@ const game = {
 
     if (this.boostHit && numHit === 1) {
       if (this.hitScore < 100) {
-        console.log(this.hitScore)
         this.hitScore += 10;
         health.style.width = this.hitScore + "%";
         health.textContent = this.hitScore + "%";
