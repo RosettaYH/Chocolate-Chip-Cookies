@@ -2,8 +2,9 @@ const mouseSpan = document.querySelector("#mouse");
 const health = document.querySelector("#health");
 let plainCookieImage;
 let chocolateImage;
-let raisinImage;
+let darkChocolateCookieImage;
 let chocolateChipCookieImage;
+let sugarImage;
 let jarImage;
 
 let isPlaying = true;
@@ -15,13 +16,18 @@ function preload() {
   chocolateImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469"
   );
-  raisinImage = loadImage(
-    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Frasin.png?v=1607118805816"
+  darkChocolateCookieImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2FdarkChocolate.png?v=1607234808521"
   );
   chocolateChipCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolatechip.png?v=1607118024346"
   );
-  jarImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fjar.png?v=1607225247868")
+  sugarImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fsugar.png?v=1607235169787"
+  );
+  jarImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fjar.png?v=1607225247868"
+  );
 }
 
 function setup() {
@@ -39,7 +45,7 @@ function mouseMoved() {
 }
 
 function mouseClicked() {
-  if(isPlaying){
+  if (isPlaying) {
     game.mouseClicked();
   } else {
     game.restart();
@@ -53,12 +59,35 @@ class Field {
   clear() {
     // Move only inside jar
     background(this.color);
-    image(jarImage, jarImage.width/2.5, jarImage.height/8, jarImage.width*2.5, jarImage.height*2)
+    image(
+      jarImage,
+      jarImage.width / 2.5,
+      jarImage.height / 8,
+      jarImage.width * 2.5,
+      jarImage.height * 2
+    );
     fill("rgba(231, 244, 250, 0.5)");
-    rect(jarImage.width/2.5, jarImage.width/2.5, jarImage.width*2.5, jarImage.width*2.5, 160);
+    rect(
+      jarImage.width / 2.5,
+      jarImage.width / 2.5,
+      jarImage.width * 2.5,
+      jarImage.width * 2.5,
+      160
+    );
   }
   clamp(x, y) {
-    return { x: constrain(x, jarImage.width/2.5, jarImage.width*2.5+jarImage.width/2.5), y: constrain(y, jarImage.width/2.5, jarImage.width*2.5+jarImage.width/2.5) };
+    return {
+      x: constrain(
+        x,
+        jarImage.width / 2.5,
+        jarImage.width * 2.5 + jarImage.width / 2.5
+      ),
+      y: constrain(
+        y,
+        jarImage.width / 2.5,
+        jarImage.width * 2.5 + jarImage.width / 2.5
+      )
+    };
   }
 }
 
@@ -109,15 +138,16 @@ class Decoy {
   }
   draw() {
     image(
-      raisinImage,
-      this.x - raisinImage.width / 2,
-      this.y - raisinImage.height / 2,
-      raisinImage.width,
-      raisinImage.height
+      darkChocolateCookieImage,
+      this.x - darkChocolateCookieImage.width / 4,
+      this.y - darkChocolateCookieImage.height / 4,
+      darkChocolateCookieImage.width / 2,
+      darkChocolateCookieImage.height / 2
     );
-    
   }
 }
+
+class 
 
 const game = {
   initialize() {
@@ -126,7 +156,12 @@ const game = {
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(jarImage.width*1.25, jarImage.height, 5, this.mouse);
+    this.player = new Player(
+      jarImage.width * 1.25,
+      jarImage.height,
+      5,
+      this.mouse
+    );
     this.enemiesNumber = 3;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -138,11 +173,11 @@ const game = {
     this.raisin = {};
     this.initialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
-    
+
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
-    health.textContent = this.hitScore + "%"
+    health.textContent = this.hitScore + "%";
     //this.numHit = 0;
   },
   mouseMoved() {
@@ -153,13 +188,13 @@ const game = {
 
     if (this.decoyExists && frameCount < this.initialFrameCount + 300) {
       this.raisin.draw();
-      for(let agent of [...this.enemies]){
-        agent.target = this.raisin
+      for (let agent of [...this.enemies]) {
+        agent.target = this.raisin;
       }
     } else {
       this.decoyNeedsCoolDown = false;
-      for(let agent of [...this.enemies]){
-        agent.target = this.player
+      for (let agent of [...this.enemies]) {
+        agent.target = this.player;
       }
     }
     //console.log(`cool down: ${this.decoyNeedsCoolDown}`)
@@ -186,11 +221,11 @@ const game = {
       if (this.hit && numHit === 1) {
         // Only decrement health when hit the first time
         this.hitScore -= 10;
-        if(this.hitScore <= 10){
-          health.style.backgroundColor = color(220, 53, 69)
+        if (this.hitScore <= 10) {
+          health.style.backgroundColor = color(220, 53, 69);
         }
         health.style.width = this.hitScore + "%";
-        health.textContent = this.hitScore + "%"
+        health.textContent = this.hitScore + "%";
         numHit = 0;
       }
     }
@@ -198,14 +233,13 @@ const game = {
   },
   mouseClicked() {
     this.decoyExists = true;
-    if(!this.decoyNeedsCoolDown){
+    if (!this.decoyNeedsCoolDown) {
       this.raisin = new Decoy(mouseX, mouseY);
       this.initialFrameCount = frameCount;
       this.decoyNeedsCoolDown = true;
     }
     //console.log(this.initialFrameCount)
     console.log(this.raisin);
-        
   },
   gameOver() {
     if (this.hitScore <= 0) {
@@ -218,15 +252,15 @@ const game = {
         chocolateChipCookieImage.width,
         chocolateChipCookieImage.height
       );
-    textFont("Nerko One")
-    fill(89, 63, 40)
-    textSize(200);
-    text('Game Over', width/30, height/2);
+      textFont("Nerko One");
+      fill(89, 63, 40);
+      textSize(200);
+      text("Game Over", width / 30, height / 2);
     }
-  }, 
-  restart(){
-    // Restart 
-    loop()
-    isPlaying = true
+  },
+  restart() {
+    // Restart
+    loop();
+    isPlaying = true;
   }
 };
