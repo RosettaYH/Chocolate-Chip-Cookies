@@ -4,6 +4,7 @@ let plainCookieImage;
 let chocolateImage;
 let raisinImage;
 let chocolateChipCookieImage;
+let jarImage;
 
 function preload() {
   plainCookieImage = loadImage(
@@ -18,6 +19,7 @@ function preload() {
   chocolateChipCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolatechip.png?v=1607118024346"
   );
+  jarImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fjar.png?v=1607214911671")
 }
 
 function setup() {
@@ -44,6 +46,7 @@ class Field {
   }
   clear() {
     background(this.color);
+    background(jarImage)
   }
   clamp(x, y) {
     return { x: constrain(x, 0, this.width), y: constrain(y, 0, this.height) };
@@ -111,12 +114,12 @@ class Decoy {
 
 const game = {
   initialize() {
-    const canvas = createCanvas(900, 900);
+    const canvas = createCanvas(900, 1000);
     canvas.parent("sketch");
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(20, 20, 3, this.mouse);
+    this.player = new Player(20, 20, 5, this.mouse);
     this.enemiesNumber = 3;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -130,6 +133,7 @@ const game = {
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
+    health.textContent = this.hitScore + "%"
     //this.numHit = 0;
   },
   mouseMoved() {
@@ -165,6 +169,7 @@ const game = {
         // Only decrement health when hit the first time
         this.hitScore -= 10;
         health.style.width = this.hitScore + "%";
+        health.textContent = this.hitScore + "%"
         numHit = 0;
       }
     }
@@ -185,9 +190,10 @@ const game = {
         chocolateChipCookieImage.width,
         chocolateChipCookieImage.height
       );
-
-    textSize(100);
-    text('Game Over', width/2, height/2-height/4);
+    textFont("Nerko One")
+    fill(89, 63, 40)
+    textSize(200);
+    text('Game Over', width/30, height/2);
     }
   }
 };

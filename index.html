@@ -4,8 +4,11 @@
     <meta charset="utf-8" />
     <title>Chocolate Chip Cookies</title>
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap"
+      rel="stylesheet"
+    />
     <!-- Bootstrap css -->
     <link
       rel="stylesheet"
@@ -21,31 +24,37 @@
       <div class="jumbotron">
         <h1 class="display-2">Chocolate Chip Cookies</h1>
       </div>
-      <div class="progress">
-        <div
-          class="progress-bar bg-success"
-          role="progressbar"
-          style="width: 0%"
-          aria-valuenow="25"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          id="health"
-        >25%</div>
-      </div>
       <p>You can write outside the canvas with P5: <span id="mouse"></span></p>
 
       <!-- Button trigger modal -->
-      <button type="button" class="btn btn-info mb-5" data-toggle="modal" data-target="#howToPlay">
+      <button
+        type="button"
+        class="btn btn-info mb-3"
+        data-toggle="modal"
+        data-target="#howToPlay"
+      >
         How To Play
       </button>
-      
+
       <!-- Modal -->
-      <div class="modal fade" id="howToPlay" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div
+        class="modal fade"
+        id="howToPlay"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true"
+      >
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title">How To Play</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -55,9 +64,24 @@
               </p>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-info" data-dismiss="modal">Let's Go</button>
+              <button type="button" class="btn btn-info" data-dismiss="modal">
+                Let's Go
+              </button>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="progress mb-3">
+        <div
+          class="progress-bar bg-success"
+          role="progressbar"
+          style="width: 0%"
+          aria-valuenow="25"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          id="health"
+        >
+          25%
         </div>
       </div>
       <div id="sketch"></div>
