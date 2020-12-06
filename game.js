@@ -188,6 +188,7 @@ const game = {
         }
       } else {
         this.decoyNeedsCoolDown = false;
+        this.decoyExists = false;
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
         }
@@ -266,12 +267,13 @@ const game = {
       mouseY >= jarField.start &&
       mouseY <= jarField.end
     ) {
-      this.decoyExists = true;
-      if (!this.decoyNeedsCoolDown) {
+      //this.decoyExists = true;
+      if (!this.decoyNeedsCoolDown && !this.decoyExists) { //only make new decoy if there is no cool down required and there is not an existing decoy
         //this.raisin = new Decoy(mouseX, mouseY);
         this.decoy = new Decoy(mouseX, mouseY);
         this.decoyInitialFrameCount = frameCount;
         this.decoyNeedsCoolDown = true;
+        this.decoyExists = true;
       }
       //console.log(this.initialFrameCount)
       console.log(this.decoy);
