@@ -110,11 +110,13 @@ const game = {
         new Enemy(random(width), random(height), random(1, 2), this.player)
       );
     }
+    this.raisin = {}
+
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
-    this.existingDecoy = false;
-    this.raisin = {}
+
+    this.numHit
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -150,5 +152,16 @@ const game = {
     this.existingDecoy = true;
     this.raisin = new Decoy(mouseX, mouseY)
     console.log(this.raisin)
+  },
+  updateHealth() {
+    if (this.numHit == 1) {
+      hitScore += 1;
+      hitSound.play();
+    }
+
+    if (this.numNotHit == 1) {
+      score += 1;
+      pointSound.play();
+    }
   }
 };
