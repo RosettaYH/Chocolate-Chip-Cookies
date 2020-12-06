@@ -3,20 +3,20 @@ const health = document.querySelector("#health");
 
 let jarField = {};
 
-
 let isPlaying = false;
 
 function setup() {
   game.initialize();
-  jarField = {topLeft: jarImage.width / 2.5, topRight: jarImage.width * 2.5 + jarImage.width / 2.5, bottomLeft: jarImage.width / 2.5, bottomRight: jarImage.width * 2.5 + jarImage.width / 2.5}
+  jarField = {
+    start: jarImage.width / 2.5,
+    end: jarImage.width * 2.5 + jarImage.width / 2.5
+  };
 }
 
 function draw() {
   game.update();
   game.gameOver();
   game.didBoost();
-  ellipse(jarField.topRight, jarField.bottomLeft, 100)
-  
 }
 
 function mouseMoved() {
@@ -57,16 +57,8 @@ class Field {
   }
   clamp(x, y) {
     return {
-      x: constrain(
-        x,
-        jarImage.width / 2.5,
-        jarImage.width * 2.5 + jarImage.width / 2.5
-      ),
-      y: constrain(
-        y,
-        jarImage.width / 2.5,
-        jarImage.width * 2.5 + jarImage.width / 2.5
-      )
+      x: constrain(x, this.width, this.height),
+      y: constrain(y, this.width, this.height)
     };
   }
 }
@@ -149,19 +141,19 @@ const game = {
     const canvas = createCanvas(900, 800);
     canvas.parent("sketch");
     noStroke();
-    this.field = new Field(width, height, [135, 200, 230]);
+    this.field = new Field(jarField.start, jarField.end, [135, 200, 230]);
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(
-      jarImage.width * 1.25,
-      jarImage.height,
-      5,
-      this.mouse
-    );
+    this.player = new Player(jarField.end / 2, jarField.end / 2, 5, this.mouse);
     this.enemiesNumber = 3 * level;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
       this.enemies.push(
-        new Enemy(random(width), random(height), random(1, 2), this.player)
+        new Enemy(
+          random(jarField.start, jarField.end),
+          random(jarField.start, jarField.end),
+          random(1, 2),
+          this.player
+        )
       );
     }
     this.decoyExists = false;
@@ -228,20 +220,13 @@ const game = {
         numHit = 0;
       }
     }
-    //console.log(this.hit);
   },
   didBoost() {
     let numHit = 0;
     if (frameCount % (300 * level) === 0) {
       this.boost = new Boost(
-        random(
-          jarImage.width / 2.5,
-          jarImage.width * 2.5 + jarImage.width / 2.5
-        ),
-        random(
-          jarImage.width / 2.5,
-          jarImage.width * 2.5 + jarImage.width / 2.5
-        )
+        random(jarField.start, jarField.end),
+        random(jarField.start, jarField.end)
       );
       this.boostExists = true;
     }
@@ -272,15 +257,22 @@ const game = {
     }
   },
   mouseClicked() {
-    this.decoyExists = true;
-    if (!this.decoyNeedsCoolDown) {
-      //this.raisin = new Decoy(mouseX, mouseY);
-      this.decoy = new Decoy(mouseX, mouseY);
-      this.decoyInitialFrameCount = frameCount;
-      this.decoyNeedsCoolDown = true;
+    if (
+      mouseX >= jarField.start &&
+      mouseX <= jarField.end &&
+      mouseY >= jarField.start &&
+      mouseY <= jarField.end
+    ) {
+      this.decoyExists = true;
+      if (!this.decoyNeedsCoolDown) {
+        //this.raisin = new Decoy(mouseX, mouseY);
+        this.decoy = new Decoy(mouseX, mouseY);
+        this.decoyInitialFrameCount = frameCount;
+        this.decoyNeedsCoolDown = true;
+      }
+      //console.log(this.initialFrameCount)
+      console.log(this.decoy);
     }
-    //console.log(this.initialFrameCount)
-    console.log(this.decoy);
   },
   gameOver() {
     if (this.hitScore <= 0) {
