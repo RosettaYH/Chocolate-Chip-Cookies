@@ -37,6 +37,7 @@ function setup() {
 function draw() {
   game.update();
   game.gameOver();
+  game.didBoost();
 }
 
 function mouseMoved() {
@@ -192,12 +193,12 @@ const game = {
 
     this.boostExists = false;
     this.boost = {};
+    this.boostHit = false;
 
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
     health.textContent = this.hitScore + "%";
-    //this.numHit = 0;
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -218,36 +219,6 @@ const game = {
         agent.target = this.player;
       }
     }
-    //this.boost.draw()
-
-    if (frameCount % 800 === 0) {
-      console.log("frame")
-      this.boost = new Boost(
-        random(
-          jarImage.width / 2.5,
-          jarImage.width * 2.5 + jarImage.width / 2.5
-        ),
-        random(
-          jarImage.width / 2.5,
-          jarImage.width * 2.5 + jarImage.width / 2.5
-        )
-      );
-      this.boostExists = true;
-    }
-
-    
-    if (this.boostExists) {
-      // this.boostExists = collideCircleCircle(
-      //   this.player.x,
-      //   this.player.y,
-      //   80,
-      //   this.boost.x,
-      //   this.boost.y,
-      //   80
-      // )
-      this.boost.draw();
-    }
-
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
       agent.draw();
@@ -278,6 +249,50 @@ const game = {
         numHit = 0;
       }
     }
+    //console.log(this.hit);
+  },
+  didBoost() {
+    let numHit = 0;
+    if (frameCount % 300 === 0) {
+      console.log("frame");
+      this.boost = new Boost(
+        random(
+          jarImage.width / 2.5,
+          jarImage.width * 2.5 + jarImage.width / 2.5
+        ),
+        random(
+          jarImage.width / 2.5,
+          jarImage.width * 2.5 + jarImage.width / 2.5
+        )
+      );
+      this.boostExists = true;
+    }
+
+    if (this.boostExists) {
+      this.boostHit = collideCircleCircle(
+        this.player.x,
+        this.player.y,
+        80,
+        this.boost.x,
+        this.boost.y,
+        80
+      );
+      if (this.boostHit) {
+        numHit += 1;
+      }
+      this.boost.draw();
+    }
+
+    if (this.boostHit && numHit === 1) {
+      if (this.hitScore <= 100) {
+        this.hitScore += 10;
+        health.style.width = this.hitScore + "%";
+        health.textContent = this.hitScore + "%";
+      }
+
+      this.boostExists = false;
+    }
+
     //console.log(this.hit);
   },
   mouseClicked() {
