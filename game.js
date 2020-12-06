@@ -154,10 +154,11 @@ const game = {
       );
     }
     this.decoyExists = false;
-    //this.raisin = {};
     this.decoy = {};
     this.decoyInitialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
+    this.waitingPeriod = 120
+    this.waitingPeriodFrameCount = 0
 
     this.boostExists = false;
     this.boost = {};
@@ -172,6 +173,7 @@ const game = {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
   update() {
+    console.log(`decoy exists: ${this.decoyExists} needs cool down: ${this.decoyNeedsCoolDown}`)
     this.field.clear();
     if (level === 0) {
       textFont("Nerko One");
@@ -180,15 +182,14 @@ const game = {
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
       if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
-        //this.raisin.draw();
         this.decoy.draw();
         for (let agent of [...this.enemies]) {
-          //agent.target = this.raisin;
           agent.target = this.decoy;
         }
       } else if(this.decoyExists && frameCount > this.decoyInitialFrameCount + 300){
         this.decoyNeedsCoolDown = true;
         this.decoyExists = false;
+        
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
         }
