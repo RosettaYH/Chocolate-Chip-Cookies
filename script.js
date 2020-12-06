@@ -147,7 +147,21 @@ class Decoy {
   }
 }
 
-class 
+class Boost {
+  constructor(x, y) {
+    Object.assign(this, { x, y });
+  }
+  draw() {
+    console.log("drew")
+    image(
+      darkChocolateCookieImage,
+      this.x - darkChocolateCookieImage.width / 4,
+      this.y - darkChocolateCookieImage.height / 4,
+      darkChocolateCookieImage.width / 2,
+      darkChocolateCookieImage.height / 2
+    );
+  }
+}
 
 const game = {
   initialize() {
@@ -170,9 +184,14 @@ const game = {
       );
     }
     this.decoyExists = false;
-    this.raisin = {};
+    //this.raisin = {};
+    this.decoy = {};
     this.initialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
+    
+    this.boostExists = false;
+    this.boost = new Boost(100, 100)
+    this.boostNeedsCoolDown = false;
 
     this.hit = false;
     this.hitScore = 100;
@@ -187,9 +206,11 @@ const game = {
     this.field.clear();
 
     if (this.decoyExists && frameCount < this.initialFrameCount + 300) {
-      this.raisin.draw();
+      //this.raisin.draw();
+      this.decoy.draw()
       for (let agent of [...this.enemies]) {
-        agent.target = this.raisin;
+        //agent.target = this.raisin;
+        agent.target = this.decoy;
       }
     } else {
       this.decoyNeedsCoolDown = false;
@@ -197,7 +218,12 @@ const game = {
         agent.target = this.player;
       }
     }
-    //console.log(`cool down: ${this.decoyNeedsCoolDown}`)
+    
+    //console.log(frameCount%1000 === 0)
+    if(frameCount%10 === 0){
+      this.boost.draw()
+    }
+
 
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
@@ -234,12 +260,13 @@ const game = {
   mouseClicked() {
     this.decoyExists = true;
     if (!this.decoyNeedsCoolDown) {
-      this.raisin = new Decoy(mouseX, mouseY);
+      //this.raisin = new Decoy(mouseX, mouseY);
+      this.decoy = new Decoy(mouseX, mouseY);
       this.initialFrameCount = frameCount;
       this.decoyNeedsCoolDown = true;
     }
     //console.log(this.initialFrameCount)
-    console.log(this.raisin);
+    console.log(this.decoy);
   },
   gameOver() {
     if (this.hitScore <= 0) {
