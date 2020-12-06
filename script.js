@@ -34,17 +34,20 @@ function draw() {
 }
 
 function mouseMoved() {
-  //health.style.width = "70%";
   game.mouseMoved();
   game.didHit();
 }
 
 function mouseClicked() {
-  game.mouseClicked();
-  if(!isPlaying){
-    
+  if(isPlaying){
+    game.mouseClicked();
+  } else {
+    loop()
+    game.restart();
+    isPlaying = true;
   }
 }
+
 class Field {
   constructor(width, height, color) {
     Object.assign(this, { width, height, color });
@@ -186,7 +189,6 @@ const game = {
         // Only decrement health when hit the first time
         this.hitScore -= 10;
         if(this.hitScore <= 10){
-          console.log("Hi")
           health.style.backgroundColor = color(220, 53, 69)
         }
         health.style.width = this.hitScore + "%";
@@ -223,5 +225,9 @@ const game = {
     textSize(200);
     text('Game Over', width/30, height/2);
     }
+  }, 
+  restart(){
+    clear()
+    //this.player = new Player(jarImage.width*1.25, jarImage.height, 5, this.mouse);
   }
 };
