@@ -6,6 +6,8 @@ let raisinImage;
 let chocolateChipCookieImage;
 let jarImage;
 
+let isPlaying = true;
+
 function preload() {
   plainCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766"
@@ -39,6 +41,9 @@ function mouseMoved() {
 
 function mouseClicked() {
   game.mouseClicked();
+  if(!isPlaying){
+    
+  }
 }
 class Field {
   constructor(width, height, color) {
@@ -180,6 +185,10 @@ const game = {
       if (this.hit && numHit === 1) {
         // Only decrement health when hit the first time
         this.hitScore -= 10;
+        if(this.hitScore <= 10){
+          console.log("Hi")
+          health.style.backgroundColor = color(220, 53, 69)
+        }
         health.style.width = this.hitScore + "%";
         health.textContent = this.hitScore + "%"
         numHit = 0;
@@ -201,6 +210,7 @@ const game = {
   gameOver() {
     if (this.hitScore <= 0) {
       noLoop();
+      isPlaying = false;
       image(
         chocolateChipCookieImage,
         this.player.x - chocolateChipCookieImage.width / 2,
