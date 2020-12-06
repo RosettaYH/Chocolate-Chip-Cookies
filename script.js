@@ -97,7 +97,6 @@ class Enemy extends Agent {
 }
 
 class Decoy {
-  //click to drop a decoy raisin, will implement feature to make raisin disappear after 5 seconds
   constructor(x, y) {
     Object.assign(this, { x, y });
   }
@@ -131,6 +130,7 @@ const game = {
     this.decoyExists = false;
     this.raisin = {};
     this.initialFrameCount = 0
+    this.decoyNeedsCoolDown = false;
 
     this.hit = false;
     this.hitScore = 100;
@@ -144,9 +144,10 @@ const game = {
   update() {
     this.field.clear();
 
-    if (this.decoyExists && frameCount < this.initialFrameCount + 5000) {
-      //console.log()
+    if (this.decoyExists && frameCount < this.initialFrameCount + 300) {
       this.raisin.draw();
+    } else if (frameCount > this.initialFrameCount + 300){
+      this.decoyNeedsCoolDown = false
     }
 
     for (let agent of [this.player, ...this.enemies]) {
@@ -180,8 +181,12 @@ const game = {
   },
   mouseClicked() {
     this.decoyExists = true;
-    this.raisin = new Decoy(mouseX, mouseY);
-    this.initialFrameCount = frameCount
+    console.log(this.raisin)
+    if(typeof this.raisin === null){
+      this.raisin = new Decoy(mouseX, mouseY);
+      //decoyNeedsCoolDown = true
+    }
+    this.initialFrameCount = frameCount;
     console.log(this.initialFrameCount)
     console.log(this.raisin);
   },
