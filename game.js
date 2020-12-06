@@ -104,6 +104,13 @@ class Enemy extends Agent {
 class Decoy {
   constructor(x, y) {
     Object.assign(this, { x, y });
+    
+    /*
+    this.decoyExists = false;
+    this.decoy = {};
+    this.decoyInitialFrameCount = 0;
+    this.decoyNeedsCoolDown = false;
+    */
   }
   draw() {
     image(
@@ -153,8 +160,8 @@ const game = {
         )
       );
     }
-    this.decoyExists = false;
     this.decoy = {};
+    this.decoyExists = false;
     this.decoyInitialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
     this.waitingPeriod = 300
