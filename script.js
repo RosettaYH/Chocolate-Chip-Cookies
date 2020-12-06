@@ -109,6 +109,7 @@ class Decoy {
       raisinImage.width,
       raisinImage.height
     );
+    
   }
 }
 
@@ -127,8 +128,9 @@ const game = {
         new Enemy(random(width), random(height), random(1, 2), this.player)
       );
     }
-    this.existingDecoy = false;
+    this.decoyExists = false;
     this.raisin = {};
+    this.initialFrameCount = 0
 
     this.hit = false;
     this.hitScore = 100;
@@ -142,7 +144,8 @@ const game = {
   update() {
     this.field.clear();
 
-    if (this.existingDecoy) {
+    if (this.decoyExists && frameCount < this.initialFrameCount + 5000) {
+      //console.log()
       this.raisin.draw();
     }
 
@@ -176,8 +179,10 @@ const game = {
     console.log(this.hit);
   },
   mouseClicked() {
-    this.existingDecoy = true;
+    this.decoyExists = true;
     this.raisin = new Decoy(mouseX, mouseY);
+    this.initialFrameCount = frameCount
+    console.log(this.initialFrameCount)
     console.log(this.raisin);
   },
   gameOver() {
