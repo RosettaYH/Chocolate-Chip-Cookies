@@ -45,10 +45,11 @@ class Field {
     Object.assign(this, { width, height, color });
   }
   clear() {
+    // Move only inside jar
     background(this.color);
     image(jarImage, jarImage.width/2.5, jarImage.height/8, jarImage.width*2.5, jarImage.height*2)
-    fill("rgba(208, 234, 245, 0.5)");
-    rect(jarImage.width/2.5, jarImage.width/2.5, jarImage.width*2.5, jarImage.width*2.5, 180);
+    fill("rgba(231, 244, 250, 0.5)");
+    rect(jarImage.width/2.5, jarImage.width/2.5, jarImage.width*2.5, jarImage.width*2.5, 160);
   }
   clamp(x, y) {
     return { x: constrain(x, jarImage.width/2.5, jarImage.width*2.5+jarImage.width/2.5), y: constrain(y, jarImage.width/2.5, jarImage.width*2.5+jarImage.width/2.5) };

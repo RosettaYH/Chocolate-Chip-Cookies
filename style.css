@@ -9,6 +9,8 @@ body {
 h1 {
   font-family: 'Nerko One', cursive;
   color: #593F28;
+  text-shadow: 2px 4px 4px #F2BF80;
+  
 }
 
 .jumbotron {
