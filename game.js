@@ -104,13 +104,9 @@ class Enemy extends Agent {
 class Decoy {
   constructor(x, y) {
     Object.assign(this, { x, y });
-    
-    /*
-    this.decoyExists = false;
-    this.decoy = {};
-    this.decoyInitialFrameCount = 0;
-    this.decoyNeedsCoolDown = false;
-    */
+    this.exists = false;
+    this.InitialFrameCount = undefined;
+    this.needsCoolDown = false;
   }
   draw() {
     image(
@@ -161,10 +157,7 @@ const game = {
       );
     }
     this.decoy = {};
-    this.decoyExists = false;
-    this.decoyInitialFrameCount = 0;
-    this.decoyNeedsCoolDown = false;
-    this.waitingPeriod = 300
+    this.waitingPeriod = 300;
 
     this.boostExists = false;
     this.boost = {};
@@ -179,7 +172,9 @@ const game = {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
   update() {
-    console.log(`decoy exists: ${this.decoyExists} needs cool down: ${this.decoyNeedsCoolDown}`)
+    console.log(
+      `decoy exists: ${this.decoy.exists} needs cool down: ${this.decoy.needsCoolDown}`
+    );
     this.field.clear();
     if (level === 0) {
       textFont("Nerko One");
@@ -187,20 +182,29 @@ const game = {
       textSize(110);
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
-      if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
+      if (
+        this.decoy.exists &&
+        frameCount < this.decoy.initialFrameCount + 300
+      ) {
         this.decoy.draw();
         for (let agent of [...this.enemies]) {
           agent.target = this.decoy;
         }
-      } else if(this.decoyExists && frameCount > this.decoyInitialFrameCount + 300){
-        this.decoyNeedsCoolDown = true;
-        this.decoyExists = false;
+      } else if (
+        this.decoy.exists &&
+        frameCount > this.decoy.initialFrameCount + 300
+      ) {
+        this.decoy.needsCoolDown = true;
+        this.decoy.exists = false;
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
         }
-      } else if(!this.decoyExists & this.decoyNeedsCoolDown){
-        if(frameCount > this.decoyInitialFrameCount + 300 + this.waitingPeriod){
-          this.decoyNeedsCoolDown = false;
+      } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
+        if (
+          frameCount >
+          this.decoy.initialFrameCount + 300 + this.waitingPeriod
+        ) {
+          this.decoy.needsCoolDown = false;
         }
       }
       for (let agent of [this.player, ...this.enemies]) {
@@ -277,26 +281,23 @@ const game = {
       mouseY >= jarField.start &&
       mouseY <= jarField.end
     ) {
-      //this.decoyExists = true;
-      if (!this.decoyNeedsCoolDown && !this.decoyExists) { //only make new decoy if there is no cool down required and there is not an existing decoy
+      if (!this.decoy.needsCoolDown && !this.decoy.exists) {
         this.decoy = new Decoy(mouseX, mouseY);
-        this.decoyInitialFrameCount = frameCount;
-        this.decoyNeedsCoolDown = true;
-        this.decoyExists = true;
+        this.decoy.initialFrameCount = frameCount;
+        this.decoy.needsCoolDown = true;
+        this.decoy.exists = true;
       }
-      
-      if(!this.decoyExists && this.decoyNeedsCoolDown){
-        console.log("wait")
+
+      if (!this.decoy.exists && this.decoy.needsCoolDown) {
+        console.log("wait");
       }
-      //console.log(this.initialFrameCount)
       console.log(this.decoy);
     }
   },
   gameOver() {
     if (this.hitScore <= 0) {
       noLoop();
-      
-      
+
       image(
         chocolateChipCookieImage,
         this.player.x - chocolateChipCookieImage.width / 2,
@@ -304,7 +305,7 @@ const game = {
         chocolateChipCookieImage.width,
         chocolateChipCookieImage.height
       );
-      rect(0, 0, width, height)
+      rect(0, 0, width, height);
       textFont("Nerko One");
       fill(89, 63, 40);
       textSize(200);
