@@ -107,6 +107,8 @@ class Decoy {
     this.exists = false;
     this.InitialFrameCount = undefined;
     this.needsCoolDown = false;
+    this.screenTime = 300;
+    this.coolDown = 300;
   }
   draw() {
     image(
@@ -157,7 +159,6 @@ const game = {
       );
     }
     this.decoy = {};
-    this.waitingPeriod = 300;
 
     this.boostExists = false;
     this.boost = {};
@@ -184,15 +185,12 @@ const game = {
     } else {
       if (
         this.decoy.exists &&
-        frameCount < this.decoy.initialFrameCount + 300
+        frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
       ) {
         this.decoy.draw();
-        for (let agent of [...this.enemies]) {
-          agent.target = this.decoy;
-        }
       } else if (
         this.decoy.exists &&
-        frameCount > this.decoy.initialFrameCount + 300
+        frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
       ) {
         this.decoy.needsCoolDown = true;
         this.decoy.exists = false;
@@ -202,7 +200,7 @@ const game = {
       } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
         if (
           frameCount >
-          this.decoy.initialFrameCount + 300 + this.waitingPeriod
+          this.decoy.initialFrameCount + 300 + this.decoy.coolDown
         ) {
           this.decoy.needsCoolDown = false;
         }
@@ -286,12 +284,16 @@ const game = {
         this.decoy.initialFrameCount = frameCount;
         this.decoy.needsCoolDown = true;
         this.decoy.exists = true;
+        console.log(this.decoy);
+        for (let agent of [...this.enemies]) {
+          agent.target = this.decoy;
+          console.log("changing target") //only change target when creating up decoy
+        }
       }
 
       if (!this.decoy.exists && this.decoy.needsCoolDown) {
         console.log("wait");
       }
-      console.log(this.decoy);
     }
   },
   gameOver() {
