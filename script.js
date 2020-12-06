@@ -8,14 +8,29 @@ let sugarImage;
 let jarImage;
 
 let level = 0;
-
+const levelNumber = 3;
 let isPlaying = true;
 
+$(document).ready(function() {
+  loadLevels();
+});
 
-function levelClicked(levelId){
-  level = levelId
-  game.initialize();
+function loadLevels() {
+  for (let i = 0; i < levelNumber; i++) {
+    let button = document.createElement("button");
+     button.setAttribute("type", "button")
+    button.classList.add("btn", "mx-1");
+    button.id = 1+i
+    button.textContent = "Level " + (1+i)
+    button.setAttribute("onclick", "levelClicked(this.id)")
+    document.getElementById("levels").appendChild(button)
+  }
   
+}
+function levelClicked(levelId) {
+  console.log(levelId)
+  level = levelId;
+  game.initialize();
 }
 function preload() {
   plainCookieImage = loadImage(
@@ -186,7 +201,7 @@ const game = {
       5,
       this.mouse
     );
-    this.enemiesNumber = 3*level;
+    this.enemiesNumber = 3 * level;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
       this.enemies.push(
@@ -261,7 +276,7 @@ const game = {
   },
   didBoost() {
     let numHit = 0;
-    if (frameCount % (300*level) === 0) {
+    if (frameCount % (300 * level) === 0) {
       this.boost = new Boost(
         random(
           jarImage.width / 2.5,
@@ -299,7 +314,6 @@ const game = {
 
       this.boostExists = false;
     }
-
   },
   mouseClicked() {
     this.decoyExists = true;
