@@ -154,12 +154,13 @@ class Boost {
   draw() {
     console.log("drew")
     image(
-      darkChocolateCookieImage,
-      this.x - darkChocolateCookieImage.width / 4,
-      this.y - darkChocolateCookieImage.height / 4,
-      darkChocolateCookieImage.width / 2,
-      darkChocolateCookieImage.height / 2
+      sugarImage,
+      this.x - sugarImage.width / 4,
+      this.y - sugarImage.height / 4,
+      sugarImage.width / 4,
+      sugarImage.height / 4
     );
+    ellipse(this.x, this.y, 40);
   }
 }
 
@@ -186,12 +187,12 @@ const game = {
     this.decoyExists = false;
     //this.raisin = {};
     this.decoy = {};
-    this.initialFrameCount = 0;
+    this.decoyInitialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
     
     this.boostExists = false;
     this.boost = new Boost(100, 100)
-    this.boostNeedsCoolDown = false;
+    this.boostInitialFrameCount = 0;
 
     this.hit = false;
     this.hitScore = 100;
@@ -205,7 +206,7 @@ const game = {
   update() {
     this.field.clear();
 
-    if (this.decoyExists && frameCount < this.initialFrameCount + 300) {
+    if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
       //this.raisin.draw();
       this.decoy.draw()
       for (let agent of [...this.enemies]) {
@@ -218,11 +219,16 @@ const game = {
         agent.target = this.player;
       }
     }
-    
-    //console.log(frameCount%1000 === 0)
-    if(frameCount%10 === 0){
-      this.boost.draw()
-    }
+    this.boost.draw()
+    // if (frameCount%800 === 0){
+    //   this.boostInitialFrameCount = frameCount
+    //   this.boostExists = true
+    // }
+    // if(this.boostExists && frameCount < this.boostInitialFrameCount + 300){
+    //   this.boost.draw()
+    // } else {
+    //   this.boostExists = false
+    // }
 
 
     for (let agent of [this.player, ...this.enemies]) {
@@ -262,7 +268,7 @@ const game = {
     if (!this.decoyNeedsCoolDown) {
       //this.raisin = new Decoy(mouseX, mouseY);
       this.decoy = new Decoy(mouseX, mouseY);
-      this.initialFrameCount = frameCount;
+      this.decoyInitialFrameCount = frameCount;
       this.decoyNeedsCoolDown = true;
     }
     //console.log(this.initialFrameCount)
