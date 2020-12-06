@@ -1,4 +1,3 @@
-
 const minutesLabel = document.getElementById("minutes");
 const secondsLabel = document.getElementById("seconds");
 let totalSeconds = 0;

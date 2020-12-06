@@ -15,8 +15,8 @@ function setup() {
 
 function draw() {
   game.update();
-  game.gameOver();
   game.didBoost();
+  game.gameOver();
 }
 
 function mouseMoved() {
@@ -176,23 +176,30 @@ const game = {
   },
   update() {
     this.field.clear();
-
-    if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
-      //this.raisin.draw();
-      this.decoy.draw();
-      for (let agent of [...this.enemies]) {
-        //agent.target = this.raisin;
-        agent.target = this.decoy;
-      }
+    if (level === 0) {
+      textFont("Nerko One");
+      fill(89, 63, 40);
+      textSize(110);
+      text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
-      this.decoyNeedsCoolDown = false;
-      for (let agent of [...this.enemies]) {
-        agent.target = this.player;
+      
+      if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
+        //this.raisin.draw();
+        this.decoy.draw();
+        for (let agent of [...this.enemies]) {
+          //agent.target = this.raisin;
+          agent.target = this.decoy;
+        }
+      } else {
+        this.decoyNeedsCoolDown = false;
+        for (let agent of [...this.enemies]) {
+          agent.target = this.player;
+        }
       }
-    }
-    for (let agent of [this.player, ...this.enemies]) {
-      agent.move(this.field);
-      agent.draw();
+      for (let agent of [this.player, ...this.enemies]) {
+        agent.move(this.field);
+        agent.draw();
+      }
     }
   },
   didHit() {
@@ -289,6 +296,9 @@ const game = {
       fill(89, 63, 40);
       textSize(200);
       text("Game Over", width / 30, height / 2);
+      textSize(100);
+      text("Game Over", width / 30, height / 2);
+      
     }
   },
   restart() {
