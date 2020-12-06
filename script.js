@@ -19,7 +19,7 @@ function preload() {
   chocolateChipCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolatechip.png?v=1607118024346"
   );
-  jarImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fjar.png?v=1607214911671")
+  jarImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fjar.png?v=1607225247868")
 }
 
 function setup() {
@@ -46,10 +46,12 @@ class Field {
   }
   clear() {
     background(this.color);
-    image(jarImage, -jarImage.width/3.5, -jarImage.height/6, jarImage.width*2.5, jarImage.height*2)
+    image(jarImage, jarImage.width/2.5, jarImage.height/8, jarImage.width*2.5, jarImage.height*2)
+    fill("rgba(208, 234, 245, 0.5)");
+    rect(jarImage.width/2.5, jarImage.width/2.5, jarImage.width*2.5, jarImage.width*2.5, 180);
   }
   clamp(x, y) {
-    return { x: constrain(x, 0, this.width), y: constrain(y, 0, this.height) };
+    return { x: constrain(x, jarImage.width/2.5, jarImage.width*2.5+jarImage.width/2.5), y: constrain(y, jarImage.width/2.5, jarImage.width*2.5+jarImage.width/2.5) };
   }
 }
 
@@ -69,7 +71,6 @@ class Agent {
 
 class Player extends Agent {
   draw() {
-    fill("blue");
     image(
       plainCookieImage,
       this.x - plainCookieImage.width / 4,
@@ -84,7 +85,6 @@ class Player extends Agent {
 
 class Enemy extends Agent {
   draw() {
-    fill("rgba(255, 50, 50, 0.5)");
     image(
       chocolateImage,
       this.x - chocolateImage.width / 4,
@@ -119,7 +119,7 @@ const game = {
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(20, 20, 5, this.mouse);
+    this.player = new Player(jarImage.width*1.25, jarImage.height, 5, this.mouse);
     this.enemiesNumber = 3;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -146,8 +146,14 @@ const game = {
 
     if (this.decoyExists && frameCount < this.initialFrameCount + 300) {
       this.raisin.draw();
+      for(let agent of [...this.enemies]){
+        agent.target = this.raisin
+      }
     } else {
       this.decoyNeedsCoolDown = false;
+      for(let agent of [...this.enemies]){
+        agent.target = this.player
+      }
     }
     //console.log(`cool down: ${this.decoyNeedsCoolDown}`)
 
