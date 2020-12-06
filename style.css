@@ -37,6 +37,15 @@ ol{
 
 }
 
+.btn-outline-primary{
+  background-color: #ffffff;
+  color: #48abd9;
+  border-color: #48abd9;
+}
 #health{
   background-color: #28a745;
+}
+
+#timer{
+  border: 5px solid #28a745;
 }

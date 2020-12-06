@@ -11,6 +11,27 @@ let level = 0;
 const levelNumber = 3;
 let isPlaying = true;
 
+
+const minutesLabel = document.getElementById("minutes");
+let secondsLabel = document.getElementById("seconds");
+var totalSeconds = 0;
+setInterval(setTime, 1000);
+
+function setTime() {
+  totalSeconds+=1;
+  secondsLabel.innerHTML = pad(totalSeconds % 60);
+  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+}
+
+function pad(val) {
+  var valString = val + "";
+  if (valString.length < 2) {
+    return "0" + valString;
+  } else {
+    return valString;
+  }
+}
+
 $(document).ready(function() {
   loadLevels();
 });
@@ -32,6 +53,8 @@ function levelClicked(levelId) {
   level = levelId;
   game.initialize();
 }
+
+
 function preload() {
   plainCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766"
