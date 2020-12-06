@@ -10,7 +10,7 @@ function loadLevels() {
   for (let i = 0; i < levelNumber; i++) {
     let button = document.createElement("button");
      button.setAttribute("type", "button")
-    button.classList.add("btn", "mx-1");
+    button.classList.add("btn", "mx-1", "mb-3");
     button.id = 1+i
     button.textContent = "Level " + (1+i)
     button.setAttribute("onclick", "levelClicked(this.id)")

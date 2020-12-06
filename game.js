@@ -1,4 +1,3 @@
-const mouseSpan = document.querySelector("#mouse");
 const health = document.querySelector("#health");
 
 let jarField = {};
@@ -86,8 +85,6 @@ class Player extends Agent {
       plainCookieImage.width / 2,
       plainCookieImage.height / 2
     );
-    //ellipse(this.x, this.y, 80);
-    mouseSpan.textContent = `(${mouseX},${mouseY})`;
   }
 }
 
@@ -182,7 +179,6 @@ const game = {
       textSize(110);
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
-      
       if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
         //this.raisin.draw();
         this.decoy.draw();
@@ -284,7 +280,8 @@ const game = {
   gameOver() {
     if (this.hitScore <= 0) {
       noLoop();
-      isPlaying = false;
+      
+      
       image(
         chocolateChipCookieImage,
         this.player.x - chocolateChipCookieImage.width / 2,
@@ -292,14 +289,19 @@ const game = {
         chocolateChipCookieImage.width,
         chocolateChipCookieImage.height
       );
+      rect(0, 0, width, height)
       textFont("Nerko One");
       fill(89, 63, 40);
       textSize(200);
       text("Game Over", width / 30, height / 2);
-      fill(180, 90, 39);
+      fill(191, 98, 15);
       textSize(100);
-      text(minutesLabel.textContent+":"+secondsLabel.textContent, jarField.end / 2.2, jarField.end / 1.5);
-      
+      text(
+        minutesLabel.textContent + ":" + secondsLabel.textContent,
+        jarField.end / 2.2,
+        jarField.end / 1.5
+      );
+      isPlaying = false;
     }
   },
   restart() {
