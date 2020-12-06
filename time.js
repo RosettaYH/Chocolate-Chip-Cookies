@@ -1,5 +1,5 @@
-const minutesLabel = document.getElementById("minutes");
 const secondsLabel = document.getElementById("seconds");
+const minutesLabel = document.getElementById("minutes");
 let totalSeconds = 0;
 setInterval(setTime, 1000);
 
@@ -7,8 +7,8 @@ function setTime() {
   if(isPlaying){
     totalSeconds+=1;
   }  
-  secondsLabel.innerHTML = convertString(totalSeconds % 60);
-  minutesLabel.innerHTML = convertString(parseInt(totalSeconds / 60));
+  secondsLabel.textContent = convertString(totalSeconds % 60);
+  minutesLabel.textContent = convertString(parseInt(totalSeconds / 60));
 }
 
 function convertString(val) {

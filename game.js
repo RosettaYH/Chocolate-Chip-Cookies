@@ -296,8 +296,9 @@ const game = {
       fill(89, 63, 40);
       textSize(200);
       text("Game Over", width / 30, height / 2);
+      fill(180, 90, 39);
       textSize(100);
-      text("Game Over", width / 30, height / 2);
+      text(minutesLabel.textContent+":"+secondsLabel.textContent, jarField.end / 2.2, jarField.end / 1.5);
       
     }
   },
