@@ -157,8 +157,7 @@ const game = {
     this.decoy = {};
     this.decoyInitialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
-    this.waitingPeriod = 120
-    this.waitingPeriodFrameCount = 0
+    this.waitingPeriod = 300
 
     this.boostExists = false;
     this.boost = {};
@@ -189,9 +188,12 @@ const game = {
       } else if(this.decoyExists && frameCount > this.decoyInitialFrameCount + 300){
         this.decoyNeedsCoolDown = true;
         this.decoyExists = false;
-        
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
+        }
+      } else if(!this.decoyExists & this.decoyNeedsCoolDown){
+        if(frameCount > this.decoyInitialFrameCount + 300 + this.waitingPeriod){
+          this.decoyNeedsCoolDown = false;
         }
       }
       for (let agent of [this.player, ...this.enemies]) {
@@ -270,11 +272,14 @@ const game = {
     ) {
       //this.decoyExists = true;
       if (!this.decoyNeedsCoolDown && !this.decoyExists) { //only make new decoy if there is no cool down required and there is not an existing decoy
-        //this.raisin = new Decoy(mouseX, mouseY);
         this.decoy = new Decoy(mouseX, mouseY);
         this.decoyInitialFrameCount = frameCount;
         this.decoyNeedsCoolDown = true;
         this.decoyExists = true;
+      }
+      
+      if(!this.decoyExists && this.decoyNeedsCoolDown){
+        console.log("wait")
       }
       //console.log(this.initialFrameCount)
       console.log(this.decoy);
