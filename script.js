@@ -13,17 +13,19 @@ let isPlaying = true;
 
 
 const minutesLabel = document.getElementById("minutes");
-let secondsLabel = document.getElementById("seconds");
-var totalSeconds = 0;
+const secondsLabel = document.getElementById("seconds");
+let totalSeconds = 0;
 setInterval(setTime, 1000);
 
 function setTime() {
-  totalSeconds+=1;
-  secondsLabel.innerHTML = pad(totalSeconds % 60);
-  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+  if(level !== 0){
+    totalSeconds+=1;
+  }  
+  secondsLabel.innerHTML = convertString(totalSeconds % 60);
+  minutesLabel.innerHTML = convertString(parseInt(totalSeconds / 60));
 }
 
-function pad(val) {
+function convertString(val) {
   var valString = val + "";
   if (valString.length < 2) {
     return "0" + valString;
@@ -51,6 +53,7 @@ function loadLevels() {
 function levelClicked(levelId) {
   console.log(levelId)
   level = levelId;
+  totalSeconds = 0;
   game.initialize();
 }
 
