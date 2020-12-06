@@ -196,8 +196,7 @@ const game = {
     }
     //console.log(this.initialFrameCount)
     console.log(this.raisin);
-          
-
+        
   },
   gameOver() {
     if (this.hitScore <= 0) {

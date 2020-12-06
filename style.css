@@ -13,6 +13,10 @@ h1 {
   
 }
 
+ol{
+  text-align: left;
+}
+
 .jumbotron {
   background-color: #87c8e6;
 }
@@ -20,4 +24,15 @@ h1 {
 .progress{
   width: 75%;
   margin: auto 12.5%;
+}
+
+.btn{
+  background-color: #87c8e6;
+  color: #ffffff;
+}
+
+.btn:hover{
+  background-color: #48abd9;
+  color: #ffffff;
+
 }
