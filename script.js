@@ -46,7 +46,7 @@ class Field {
   }
   clear() {
     background(this.color);
-    background(jarImage)
+    image(jarImage, -jarImage.width/3.5, -jarImage.height/6, jarImage.width*2.5, jarImage.height*2)
   }
   clamp(x, y) {
     return { x: constrain(x, 0, this.width), y: constrain(y, 0, this.height) };
@@ -114,7 +114,7 @@ class Decoy {
 
 const game = {
   initialize() {
-    const canvas = createCanvas(900, 1000);
+    const canvas = createCanvas(900, 800);
     canvas.parent("sketch");
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
