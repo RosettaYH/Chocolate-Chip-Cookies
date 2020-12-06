@@ -121,7 +121,7 @@ class Boost {
     Object.assign(this, { x, y });
   }
   draw() {
-    console.log("drew");
+    //console.log("drew");
     image(
       sugarImage,
       this.x - sugarImage.width / 12,
@@ -186,8 +186,8 @@ const game = {
           //agent.target = this.raisin;
           agent.target = this.decoy;
         }
-      } else {
-        this.decoyNeedsCoolDown = false;
+      } else if(this.decoyExists && frameCount > this.decoyInitialFrameCount + 300){
+        this.decoyNeedsCoolDown = true;
         this.decoyExists = false;
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
