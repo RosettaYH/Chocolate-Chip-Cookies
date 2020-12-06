@@ -1,16 +1,22 @@
 const mouseSpan = document.querySelector("#mouse");
 const health = document.querySelector("#health");
 
+let jarField = {};
+
+
 let isPlaying = false;
 
 function setup() {
   game.initialize();
+  jarField = {topLeft: jarImage.width / 2.5, topRight: jarImage.width * 2.5 + jarImage.width / 2.5, bottomLeft: jarImage.width / 2.5, bottomRight: jarImage.width * 2.5 + jarImage.width / 2.5}
 }
 
 function draw() {
   game.update();
   game.gameOver();
   game.didBoost();
+  ellipse(jarField.topRight, jarField.bottomLeft, 100)
+  
 }
 
 function mouseMoved() {

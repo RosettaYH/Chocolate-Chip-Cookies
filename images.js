@@ -23,4 +23,5 @@ let jarImage;function preload() {
   jarImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fjar.png?v=1607225247868"
   );
+  
 }
