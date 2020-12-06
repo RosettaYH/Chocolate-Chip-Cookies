@@ -42,9 +42,7 @@ function mouseClicked() {
   if(isPlaying){
     game.mouseClicked();
   } else {
-    loop()
     game.restart();
-    isPlaying = true;
   }
 }
 
@@ -227,7 +225,8 @@ const game = {
     }
   }, 
   restart(){
-    clear()
-    //this.player = new Player(jarImage.width*1.25, jarImage.height, 5, this.mouse);
+    // Restart 
+    loop()
+    isPlaying = true
   }
 };
