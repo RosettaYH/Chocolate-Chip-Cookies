@@ -152,15 +152,15 @@ class Boost {
     Object.assign(this, { x, y });
   }
   draw() {
-    console.log("drew")
+    console.log("drew");
     image(
       sugarImage,
-      this.x - sugarImage.width / 4,
-      this.y - sugarImage.height / 4,
-      sugarImage.width / 4,
-      sugarImage.height / 4
+      this.x - sugarImage.width / 12,
+      this.y - sugarImage.height / 12,
+      sugarImage.width / 6,
+      sugarImage.height / 6
     );
-    ellipse(this.x, this.y, 40);
+    //ellipse(this.x, this.y, 80);
   }
 }
 
@@ -189,10 +189,9 @@ const game = {
     this.decoy = {};
     this.decoyInitialFrameCount = 0;
     this.decoyNeedsCoolDown = false;
-    
+
     this.boostExists = false;
-    this.boost = new Boost(100, 100)
-    this.boostInitialFrameCount = 0;
+    this.boost = {};
 
     this.hit = false;
     this.hitScore = 100;
@@ -208,7 +207,7 @@ const game = {
 
     if (this.decoyExists && frameCount < this.decoyInitialFrameCount + 300) {
       //this.raisin.draw();
-      this.decoy.draw()
+      this.decoy.draw();
       for (let agent of [...this.enemies]) {
         //agent.target = this.raisin;
         agent.target = this.decoy;
@@ -219,17 +218,35 @@ const game = {
         agent.target = this.player;
       }
     }
-    this.boost.draw()
-    // if (frameCount%800 === 0){
-    //   this.boostInitialFrameCount = frameCount
-    //   this.boostExists = true
-    // }
-    // if(this.boostExists && frameCount < this.boostInitialFrameCount + 300){
-    //   this.boost.draw()
-    // } else {
-    //   this.boostExists = false
-    // }
+    //this.boost.draw()
 
+    if (frameCount % 800 === 0) {
+      console.log("frame")
+      this.boost = new Boost(
+        random(
+          jarImage.width / 2.5,
+          jarImage.width * 2.5 + jarImage.width / 2.5
+        ),
+        random(
+          jarImage.width / 2.5,
+          jarImage.width * 2.5 + jarImage.width / 2.5
+        )
+      );
+      this.boostExists = true;
+    }
+
+    
+    if (this.boostExists) {
+      // this.boostExists = collideCircleCircle(
+      //   this.player.x,
+      //   this.player.y,
+      //   80,
+      //   this.boost.x,
+      //   this.boost.y,
+      //   80
+      // )
+      this.boost.draw();
+    }
 
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
@@ -261,7 +278,7 @@ const game = {
         numHit = 0;
       }
     }
-    console.log(this.hit);
+    //console.log(this.hit);
   },
   mouseClicked() {
     this.decoyExists = true;
