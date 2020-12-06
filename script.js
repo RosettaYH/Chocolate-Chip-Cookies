@@ -11,7 +11,9 @@ function preload() {
   chocolateImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469"
   );
-  raisinImage = loadImage("https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Frasin.png?v=1607118805816")
+  raisinImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Frasin.png?v=1607118805816"
+  );
 }
 
 function setup() {
@@ -86,12 +88,19 @@ class Enemy extends Agent {
   }
 }
 
-class Decoy { //click to drop a decoy raisin, will implement feature to make raisin disappear after 5 seconds
-  constructor(x, y){
-    Object.assign(this, {x, y})
+class Decoy {
+  //click to drop a decoy raisin, will implement feature to make raisin disappear after 5 seconds
+  constructor(x, y) {
+    Object.assign(this, { x, y });
   }
-  draw(){
-    image(raisinImage, this.x - raisinImage.width/2, this.y - raisinImage.height/2, raisinImage.width, raisinImage.height)
+  draw() {
+    image(
+      raisinImage,
+      this.x - raisinImage.width / 2,
+      this.y - raisinImage.height / 2,
+      raisinImage.width,
+      raisinImage.height
+    );
   }
 }
 
@@ -102,7 +111,7 @@ const game = {
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(20, 20, 2.5, this.mouse);
+    this.player = new Player(20, 20, 10, this.mouse);
     this.enemiesNumber = 3;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -110,58 +119,55 @@ const game = {
         new Enemy(random(width), random(height), random(1, 2), this.player)
       );
     }
-    this.raisin = {}
+    this.existingDecoy = false;
+    this.raisin = {};
 
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
-
-    this.numHit
+    this.numHit = 0; 
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
   update() {
     this.field.clear();
-    if(this.existingDecoy){
-      this.raisin.draw()
+
+    if (this.existingDecoy) {
+      this.raisin.draw();
     }
+
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
       agent.draw();
     }
   },
   didHit() {
-      for (let enemy of this.enemies) {
-        this.hit = collideCircleCircle(
-          this.player.x,
-          this.player.y,
-          80,
-          enemy.x,
-          enemy.y,
-          40
-        );
-        if (this.hit) {
-          this.hitScore -= 10;
-          health.style.width = this.hitScore + "%";
-        }
+    for (let enemy of this.enemies) {
+      this.hit = collideCircleCircle(
+        this.player.x,
+        this.player.y,
+        80,
+        enemy.x,
+        enemy.y,
+        40
+      );
+      console.log(this.mouse.x)
+      if (this.hit) {
+        this.numHit += 1;
       }
-      console.log(this.hit);
-    },
-  mouseClicked(){
-    this.existingDecoy = true;
-    this.raisin = new Decoy(mouseX, mouseY)
-    console.log(this.raisin)
+      if (this.hit && this.numHit === 1) {
+        // Only decrement health when hit the first time
+        this.hitScore -= 10;
+        health.style.width = this.hitScore + "%";
+        this.numHit = 0
+      }
+    }
+    console.log(this.hit);
   },
-  updateHealth() {
-    if (this.numHit == 1) {
-      hitScore += 1;
-      hitSound.play();
-    }
-
-    if (this.numNotHit == 1) {
-      score += 1;
-      pointSound.play();
-    }
-  }
+  mouseClicked() {
+    this.existingDecoy = true;
+    this.raisin = new Decoy(mouseX, mouseY);
+    console.log(this.raisin);
+  },
 };
