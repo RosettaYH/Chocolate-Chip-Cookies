@@ -3,6 +3,7 @@ const health = document.querySelector("#health");
 let plainCookieImage;
 let chocolateImage;
 let raisinImage;
+let chocolateChipCookieImage;
 
 function preload() {
   plainCookieImage = loadImage(
@@ -14,6 +15,9 @@ function preload() {
   raisinImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Frasin.png?v=1607118805816"
   );
+  chocolateChipCookieImage = loadImage(
+    "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolatechip.png?v=1607118024346"
+  );
 }
 
 function setup() {
@@ -22,6 +26,7 @@ function setup() {
 
 function draw() {
   game.update();
+  game.gameOver();
 }
 
 function mouseMoved() {
@@ -111,7 +116,7 @@ const game = {
     noStroke();
     this.field = new Field(width, height, [135, 200, 230]);
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(20, 20, 10, this.mouse);
+    this.player = new Player(20, 20, 3, this.mouse);
     this.enemiesNumber = 3;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -125,7 +130,7 @@ const game = {
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
-    this.numHit = 0; 
+    //this.numHit = 0;
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -144,6 +149,7 @@ const game = {
   },
   didHit() {
     for (let enemy of this.enemies) {
+      let numHit = 0;
       this.hit = collideCircleCircle(
         this.player.x,
         this.player.y,
@@ -152,15 +158,14 @@ const game = {
         enemy.y,
         40
       );
-      console.log(this.mouse.x)
       if (this.hit) {
-        this.numHit += 1;
+        numHit += 1;
       }
-      if (this.hit && this.numHit === 1) {
+      if (this.hit && numHit === 1) {
         // Only decrement health when hit the first time
         this.hitScore -= 10;
         health.style.width = this.hitScore + "%";
-        this.numHit = 0
+        numHit = 0;
       }
     }
     console.log(this.hit);
@@ -170,4 +175,19 @@ const game = {
     this.raisin = new Decoy(mouseX, mouseY);
     console.log(this.raisin);
   },
+  gameOver() {
+    if (this.hitScore <= 0) {
+      noLoop();
+      image(
+        chocolateChipCookieImage,
+        this.player.x - chocolateChipCookieImage.width / 2,
+        this.player.y - chocolateChipCookieImage.height / 2,
+        chocolateChipCookieImage.width,
+        chocolateChipCookieImage.height
+      );
+
+    textSize(100);
+    text('Game Over', width/2, height/2-height/4);
+    }
+  }
 };
