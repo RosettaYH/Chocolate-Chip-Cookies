@@ -284,7 +284,8 @@ const game = {
     }
 
     if (this.boostHit && numHit === 1) {
-      if (this.hitScore <= 100) {
+      if (this.hitScore < 100) {
+        console.log(this.hitScore)
         this.hitScore += 10;
         health.style.width = this.hitScore + "%";
         health.textContent = this.hitScore + "%";
@@ -293,7 +294,6 @@ const game = {
       this.boostExists = false;
     }
 
-    //console.log(this.hit);
   },
   mouseClicked() {
     this.decoyExists = true;
