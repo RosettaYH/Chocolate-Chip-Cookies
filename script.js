@@ -130,8 +130,7 @@ const game = {
     this.decoyExists = false;
     this.raisin = {};
     this.initialFrameCount = 0
-    this.decoyNeedsCoolDown = false;
-
+    
     this.hit = false;
     this.hitScore = 100;
     health.style.width = this.hitScore + "%";
@@ -146,9 +145,7 @@ const game = {
 
     if (this.decoyExists && frameCount < this.initialFrameCount + 300) {
       this.raisin.draw();
-    } else if (frameCount > this.initialFrameCount + 300){
-      this.decoyNeedsCoolDown = false
-    }
+    } 
 
     for (let agent of [this.player, ...this.enemies]) {
       agent.move(this.field);
@@ -181,14 +178,12 @@ const game = {
   },
   mouseClicked() {
     this.decoyExists = true;
-    console.log(this.raisin)
-    if(typeof this.raisin === null){
-      this.raisin = new Decoy(mouseX, mouseY);
-      //decoyNeedsCoolDown = true
-    }
+    this.raisin = new Decoy(mouseX, mouseY);
     this.initialFrameCount = frameCount;
-    console.log(this.initialFrameCount)
-    console.log(this.raisin);
+    //console.log(this.initialFrameCount)
+    //console.log(this.raisin);
+          
+
   },
   gameOver() {
     if (this.hitScore <= 0) {
