@@ -110,7 +110,6 @@ class Decoy {
     this.needsCoolDown = false;
     this.screenTime = 300;
     this.coolDown = this.screenTime + 300;
-    this.progress = 0
   }
   draw() {
     image(
@@ -126,7 +125,6 @@ class Decoy {
     if (this.exists && frameCount < this.initialFrameCount + this.screenTime) {
       this.draw();
       this.needsCoolDown = true;
-
     } else if (
       this.exists &&
       frameCount > this.initialFrameCount + this.screenTime
@@ -139,10 +137,6 @@ class Decoy {
   }
 
   handleCoolDown() {
-    console.log("handle cool down");
-    // decoyProgress.style.width = `${(this.progress/this.coolDown) * 100}%`;
-    // console.log((this.progress/this.coolDown) * 100)
-    // this.progress += 1
     if (
       this.needsCoolDown &&
       frameCount > this.initialFrameCount + this.coolDown
@@ -224,7 +218,7 @@ const game = {
         if (!this.decoy.exists && !this.decoy.needsCoolDown) {
           decoyProgress.style.width = "100%";
         }
-
+        decoyProgress.style.width = `${this.progressBar}%`;
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
           agent.draw();
