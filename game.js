@@ -170,10 +170,9 @@ const game = {
     healthProgress.style.width = this.hitScore + "%";
     healthProgress.textContent = this.hitScore + "%";
 
-    decoyProgress.style.width = "0%";
-    decoyProgress.textContent = "100%";
-    
-},
+    decoyProgress.style.width = "100%";
+    decoyProgress.textContent = "Click to Drop a Decoy";
+  },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
@@ -191,8 +190,9 @@ const game = {
       if (
         this.decoy.exists &&
         frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
-      ) { 
+      ) {
         this.decoy.draw();
+         decoyProgress.style.width = "0%";
       } else if (
         this.decoy.exists &&
         frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
@@ -202,20 +202,22 @@ const game = {
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
         }
-        decoyProgress.style.width = "0%";
+       
+        let count = 0;
+        for (let i = 0; i < this.decoy.initialFrameCount + 300; i++) {
+          count += 1;
+        }
+        
+        decoyProgress.style.width =  secondsLabel.textContent + "%";
+        
       } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
-        let count = 0
         if (
           frameCount >
           this.decoy.initialFrameCount + 300 + this.decoy.coolDown
         ) {
-          for(let i = 0; i < 300; i++){
-            count += 1
-          }
           this.decoy.needsCoolDown = false;
         }
-        
-        decoyProgress.style.width = count+"%";
+
       }
       for (let agent of [this.player, ...this.enemies]) {
         agent.move(this.field);
@@ -301,7 +303,7 @@ const game = {
         console.log(this.decoy);
         for (let agent of [...this.enemies]) {
           agent.target = this.decoy;
-          console.log("changing target") //only change target when creating up decoy
+          console.log("changing target"); //only change target when creating up decoy
         }
       }
 
