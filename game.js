@@ -28,7 +28,13 @@ function mouseMoved() {
 function mouseClicked() {
   if (isPlaying) {
     game.mouseClicked();
-  } else {
+  } else() {
+    const mouseInside
+    !isPlaying &&
+    mouseX >= 0 &&
+    mouseX <= width &&
+    mouseY >= 0 &&
+    mouseY <= height
     game.restart();
   }
 }
@@ -290,28 +296,38 @@ const game = {
       this.boostExists = false;
     }
   },
-  
-  checkEnemyCollision(){
-    for(let i = 0; i < this.enemies.length; i++){
-      for(let j = i + 1; j < this.enemies.length; j++){
-        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 50, this.enemies[j].x, this.enemies[j].y, 50)){
-          this.adjustEnemies(this.enemies[i], this.enemies[j])
+
+  checkEnemyCollision() {
+    for (let i = 0; i < this.enemies.length; i++) {
+      for (let j = i + 1; j < this.enemies.length; j++) {
+        if (
+          collideCircleCircle(
+            this.enemies[i].x,
+            this.enemies[i].y,
+            50,
+            this.enemies[j].x,
+            this.enemies[j].y,
+            50
+          )
+        ) {
+          this.adjustEnemies(this.enemies[i], this.enemies[j]);
         }
       }
     }
   },
-  adjustEnemies(enemy1, enemy2){ //TO-DO: prevent enemies from overlapping when attacking decoy
-    let adjustment = 0.8
-    if(enemy1.x > enemy2.x){
-      enemy1.x += adjustment
-    } else{
-      enemy2.x += adjustment
+  adjustEnemies(enemy1, enemy2) {
+    //TO-DO: prevent enemies from overlapping when attacking decoy
+    let adjustment = 0.8;
+    if (enemy1.x > enemy2.x) {
+      enemy1.x += adjustment;
+    } else {
+      enemy2.x += adjustment;
     }
-    
-    if(enemy1.y > enemy2.y){
-      enemy1.y += adjustment
-    } else{
-      enemy2.y += adjustment
+
+    if (enemy1.y > enemy2.y) {
+      enemy1.y += adjustment;
+    } else {
+      enemy2.y += adjustment;
     }
   },
   mouseClicked() {
@@ -357,14 +373,14 @@ const game = {
       text(
         minutesLabel.textContent + ":" + secondsLabel.textContent,
         jarField.end / 2.2,
-        jarField.end / 1.5
+        jarField.end / 3.5
       );
+      textSize(60);
+      text("Click to Restart", jarField.end / 2.9, jarField.end / 1.5);
       isPlaying = false;
     }
   },
   restart() {
-    // Restart
-    //loop();
     game.initialize();
     isPlaying = true;
   }
