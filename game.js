@@ -120,6 +120,29 @@ class Decoy {
       darkChocolateCookieImage.height / 2
     );
   }
+  
+  handleExistingDecoy(){
+    if (
+          this.decoy.exists &&
+          frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
+        ) {
+          this.decoy.draw();
+          this.decoy.needsCoolDown = true;
+          decoyProgress.style.width = "0%";
+        } else if (
+          this.decoy.exists &&
+          frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
+        ) {
+          this.decoy.exists = false;
+          for (let agent of [...this.enemies]) {
+            agent.target = this.player;
+          }
+        } 
+  }
+  handleCoolDown(){
+    
+  }
+
 }
 
 class Boost {
@@ -187,32 +210,32 @@ const game = {
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
       if (isPlaying) {
+        // if (
+        //   this.decoy.exists &&
+        //   frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
+        // ) {
+        //   this.decoy.draw();
+        //   this.decoy.needsCoolDown = true;
+        //   decoyProgress.style.width = "0%";
+        // } else if (
+        //   this.decoy.exists &&
+        //   frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
+        // ) {
+        //   this.decoy.exists = false;
+        //   for (let agent of [...this.enemies]) {
+        //     agent.target = this.player;
+        //   }
+        // } 
+        if(this.decoy.exists){
+      this.decoy.handleExistingDecoy()
+        }
         if (
-          this.decoy.exists &&
-          frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
+          this.decoy.needsCoolDown &&
+          frameCount > this.decoy.initialFrameCount + this.decoy.coolDown
         ) {
-          this.decoy.draw();
-          this.decoy.needsCoolDown = true;
-          decoyProgress.style.width = "0%";
-        } else if (
-          this.decoy.exists &&
-          frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
-        ) {
-          this.decoy.exists = false;
-          for (let agent of [...this.enemies]) {
-            agent.target = this.player;
-          }
-        } else if (this.decoy.needsCoolDown) {
-          if (
-            frameCount >
-            this.decoy.initialFrameCount + this.decoy.coolDown
-          ) {
-            this.decoy.needsCoolDown = false;
-          }
-          
-        } else if(!this.decoy.exists && !this.decoy.needsCoolDown){
-          decoyProgress.style.width = "100%"
-
+          this.decoy.needsCoolDown = false;
+        } else if (!this.decoy.exists && !this.decoy.needsCoolDown) {
+          decoyProgress.style.width = "100%";
         }
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
@@ -301,7 +324,7 @@ const game = {
         }
       }
 
-      if (!this.decoy.exists && this.decoy.needsCoolDown) {
+      if (this.decoy.needsCoolDown) {
         console.log("wait");
       }
     }
