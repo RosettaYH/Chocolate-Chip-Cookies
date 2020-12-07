@@ -11,6 +11,7 @@ function setup() {
     start: jarImage.width / 2.5,
     end: jarImage.width * 2.5 + jarImage.width / 2.5
   };
+  console.log("setting up")
 }
 
 function draw() {
@@ -177,9 +178,6 @@ const game = {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
   update() {
-    console.log(
-      `decoy exists: ${this.decoy.exists} needs cool down: ${this.decoy.needsCoolDown}`
-    );
     this.field.clear();
     if (level === 0) {
       textFont("Nerko One");
@@ -293,10 +291,8 @@ const game = {
         this.decoy.initialFrameCount = frameCount;
         this.decoy.needsCoolDown = true;
         this.decoy.exists = true;
-        console.log(this.decoy);
         for (let agent of [...this.enemies]) {
           agent.target = this.decoy;
-          console.log("changing target"); //only change target when creating up decoy
         }
       }
 
@@ -333,7 +329,8 @@ const game = {
   },
   restart() {
     // Restart
-    loop();
+    //loop();
+    setup()
     isPlaying = true;
   }
 };
