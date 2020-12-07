@@ -113,6 +113,8 @@ class Decoy {
     this.needsCoolDown = false;
     this.screenTime = 300;
     this.coolDown = this.screenTime + 300;
+
+    this.decoyTime = 0;
   }
   draw() {
     image(
@@ -125,6 +127,8 @@ class Decoy {
   }
 
   handleExistingDecoy() {
+    //let coolDownInitialFrameCount = 0
+    console.log(this.needCoolDown)
     if (this.exists && frameCount < this.initialFrameCount + this.screenTime) {
       this.draw();
       this.needsCoolDown = true;
@@ -132,13 +136,23 @@ class Decoy {
       this.exists &&
       frameCount > this.initialFrameCount + this.screenTime
     ) {
-      this.exists = false; 
-
+      this.exists = false;
+      this.decoyTime = frameCount
+      console.log(decoyTime)
       for (let agent of [...game.enemies]) {
         agent.target = game.player;
       }
+     
+    } 
+    else if (!this.exists && this.needsCoolDown) {
+       this.decoyTime -= 1 / 60;
+      //console.log(frameCount - this.coolDownInitialFrameCount)
+      decoyProgress.textContent = this.coolDownInitialFrameCount+ "%";
+      decoyProgress.style.width = this.decoyTime + "%";
+    } else if(!this.exists && !this.needsCoolDown){
+      decoyProgress.textContent = "Click to Drop a Decoy";
+      decoyProgress.style.width = "100%";
     }
-      
   }
 
   handleCoolDown() {
@@ -200,8 +214,8 @@ const game = {
     healthProgress.textContent = this.hitScore + "%";
     decoyProgress.style.width = "100%";
     decoyProgress.textContent = "Click to Drop a Decoy";
-    
-    this.decoyTime = 0
+
+    //this.decoyTime = 0
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -219,11 +233,11 @@ const game = {
           this.decoy.handleCoolDown();
           this.decoy.handleExistingDecoy();
         }
-        
-        if (!this.decoy.exists && !this.decoy.needsCoolDown) {
-          this.decoyTime += 1 / 60;
-          decoyProgress.style.width = this.decoyTime + "%"
-        }
+
+        // if (!this.decoy.exists && !this.decoy.needsCoolDown) {
+        //   this.decoyTime += 1 / 60;
+        //   decoyProgress.style.width = this.decoyTime + "%"
+        // }
         //decoyProgress.style.width = `${this.progressBar}%`;
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
