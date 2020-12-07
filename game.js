@@ -110,6 +110,7 @@ class Decoy {
     this.needsCoolDown = false;
     this.screenTime = 300;
     this.coolDown = this.screenTime + 300;
+    this.progress = 0
   }
   draw() {
     image(
@@ -125,7 +126,9 @@ class Decoy {
     if (this.exists && frameCount < this.initialFrameCount + this.screenTime) {
       this.draw();
       this.needsCoolDown = true;
-      decoyProgress.style.width = "0%";
+      decoyProgress.style.width = `${(this.progress/this.screenTime) * 100}`;
+      console.log((this.progress/this.screenTime) * 100)
+      this.progress += 1
     } else if (
       this.exists &&
       frameCount > this.initialFrameCount + this.screenTime
