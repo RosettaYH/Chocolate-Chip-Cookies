@@ -11,7 +11,6 @@ function setup() {
     start: jarImage.width / 2.5,
     end: jarImage.width * 2.5 + jarImage.width / 2.5
   };
-  console.log("setting up")
 }
 
 function draw() {
@@ -303,8 +302,7 @@ const game = {
   },
   gameOver() {
     if (this.hitScore <= 0) {
-      noLoop();
-
+      //noLoop();
       image(
         chocolateChipCookieImage,
         this.player.x - chocolateChipCookieImage.width / 2,
@@ -326,11 +324,12 @@ const game = {
       );
       isPlaying = false;
     }
+    
   },
   restart() {
     // Restart
     //loop();
-    setup()
+    game.initialize()
     isPlaying = true;
   }
 };
