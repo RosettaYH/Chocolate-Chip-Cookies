@@ -3,50 +3,48 @@
 body {
   font-family: helvetica, arial, sans-serif;
   text-align: center;
-  
 }
 
 h1 {
-  font-family: 'Nerko One', cursive;
+  font-family: "Nerko One", cursive;
   color: #593F28;
   text-shadow: 2px 4px 4px #F2BF80;
-  
 }
 
-ol{
+ol {
   text-align: left;
 }
-img{ 
-  width: 10px;
-  height: auto
+img {
+  width: 50px;
+  height: auto;
 }
+
 .jumbotron {
   background-color: #87c8e6;
 }
 
-.progress{
+.progress {
   width: 75%;
-  margin: auto 12.5%;
 }
 
-.btn{
+.btn {
   background-color: #87c8e6;
   color: #ffffff;
 }
 
-.btn:hover{
+.btn:hover {
   background-color: #48abd9;
   color: #ffffff;
-
 }
 
-
-#healthProgress{
+#healthProgress {
   background-color: #28a745;
 }
 
-#time{
-   background-color: #ffffff;
+#ffc107
+
+#time {
+  background-color: #ffffff;
   color: #48abd9;
   border-color: #48abd9;
 }
