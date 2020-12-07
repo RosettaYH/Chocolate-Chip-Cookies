@@ -293,15 +293,25 @@ const game = {
   
   checkEnemyCollision(){
     for(let i = 0; i < this.enemies.length; i++){
-      for(let j = i + 1; j < this.enemies.length - 1; j++){
-        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 80, this.enemies[j].x, this.enemies[j].y, 80])){
-          adjustEnemies(this.enemies[i], this.enemies[j])
+      for(let j = i + 1; j < this.enemies.length; j++){
+        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 40, this.enemies[j].x, this.enemies[j].y, 40)){
+          this.adjustEnemies(this.enemies[i], this.enemies[j])
         }
       }
     }
   },
   adjustEnemies(enemy1, enemy2){
+    if(enemy1.x > enemy2.x){
+      enemy1.x += 1
+    } else{
+      enemy2.x += 1
+    }
     
+    if(enemy1.y > enemy2.y){
+      enemy1.y += 1
+    } else{
+      enemy2.y += 1
+    }
   },
   mouseClicked() {
     if (
