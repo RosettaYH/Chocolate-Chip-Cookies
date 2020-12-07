@@ -192,24 +192,22 @@ const game = {
           frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
         ) {
           this.decoy.draw();
-          decoyProgress.style.width = "0%";
           this.decoy.needsCoolDown = true;
+          decoyProgress.style.width = "0%";
         } else if (
           this.decoy.exists &&
           frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
         ) {
-          //this.decoy.needsCoolDown = true;
           this.decoy.exists = false;
           for (let agent of [...this.enemies]) {
             agent.target = this.player;
           }
-        } else if (!this.decoy.exists && this.decoy.needsCoolDown) {
+        } else if (this.decoy.needsCoolDown) {
           if (
             frameCount >
-            this.decoy.initialFrameCount + 300 + this.decoy.coolDown
+            this.decoy.initialFrameCount + this.decoy.coolDown
           ) {
             this.decoy.needsCoolDown = false;
-            console.log("running")
           }
           
         } else if(!this.decoy.exists && !this.decoy.needsCoolDown){
