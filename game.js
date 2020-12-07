@@ -16,6 +16,7 @@ function setup() {
 function draw() {
   game.update();
   game.didBoost();
+  game.checkEnemyCollision();
   game.gameOver();
 }
 
@@ -288,6 +289,19 @@ const game = {
 
       this.boostExists = false;
     }
+  },
+  
+  checkEnemyCollision(){
+    for(let i = 0; i < this.enemies.length; i++){
+      for(let j = i + 1; j < this.enemies.length - 1; j++){
+        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 80, this.enemies[j].x, this.enemies[j].y, 80])){
+          adjustEnemies(this.enemies[i], this.enemies[j])
+        }
+      }
+    }
+  },
+  adjustEnemies(enemy1, enemy2){
+    
   },
   mouseClicked() {
     if (
