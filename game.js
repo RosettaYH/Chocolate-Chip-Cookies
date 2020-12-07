@@ -300,7 +300,7 @@ const game = {
       }
     }
   },
-  adjustEnemies(enemy1, enemy2){
+  adjustEnemies(enemy1, enemy2){ //TO-DO: prevent enemies from overlapping when attacking decoy
     let adjustment = 0.8
     if(enemy1.x > enemy2.x){
       enemy1.x += adjustment
