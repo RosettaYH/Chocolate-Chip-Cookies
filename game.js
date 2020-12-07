@@ -137,10 +137,17 @@ class Decoy {
           // for (let agent of [...this.enemies]) {
           //   agent.target = this.player;
           //}
-          game.attackPlayer()
         } 
   }
   handleCoolDown(){
+            if (
+          this.decoy.needsCoolDown &&
+          frameCount > this.decoy.initialFrameCount + this.decoy.coolDown
+        ) {
+          this.decoy.needsCoolDown = false;
+        } else if (!this.decoy.exists && !this.decoy.needsCoolDown) {
+          decoyProgress.style.width = "100%";
+        }
 }
 
 }
@@ -210,9 +217,17 @@ const game = {
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
       if (isPlaying) {
-        console.log(this.decoy)
+            console.log(this.enemies[0].target)
+
+        //console.log(this.decoy)
         if(this.decoy.exists){
           this.decoy.handleExistingDecoy()
+        } else if(this.enemies[0].target = this.decoy){
+          for(let agent of [...this.enemies]){
+            agent.target = this.player
+                      //console.log("run")
+
+          }
         }
         // if (
         //   this.decoy.exists &&
@@ -231,14 +246,14 @@ const game = {
         //   }
         // } 
       
-        if (
-          this.decoy.needsCoolDown &&
-          frameCount > this.decoy.initialFrameCount + this.decoy.coolDown
-        ) {
-          this.decoy.needsCoolDown = false;
-        } else if (!this.decoy.exists && !this.decoy.needsCoolDown) {
-          decoyProgress.style.width = "100%";
-        }
+        // if (
+        //   this.decoy.needsCoolDown &&
+        //   frameCount > this.decoy.initialFrameCount + this.decoy.coolDown
+        // ) {
+        //   this.decoy.needsCoolDown = false;
+        // } else if (!this.decoy.exists && !this.decoy.needsCoolDown) {
+        //   decoyProgress.style.width = "100%";
+        // }
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
           agent.draw();
@@ -361,5 +376,5 @@ const game = {
     //loop();
     game.initialize();
     isPlaying = true;
-  }
+  },
 };
