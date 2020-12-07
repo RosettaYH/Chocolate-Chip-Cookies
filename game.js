@@ -145,6 +145,8 @@ const game = {
     canvas.parent("sketch");
     noStroke();
     this.field = new Field(jarField.start, jarField.end, [135, 200, 230]);
+    healthProgress.style.backgroundColor = color(40, 167, 69);
+
     this.mouse = { x: 0, y: 0 };
     this.player = new Player(jarField.end / 2, jarField.end / 2, 5, this.mouse);
     this.enemiesNumber = 3 * level;
@@ -184,34 +186,34 @@ const game = {
       textSize(110);
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
-      if (
-        this.decoy.exists &&
-        frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
-      ) {
-        this.decoy.draw();
-         decoyProgress.style.width = "0%";
-      } else if (
-        this.decoy.exists &&
-        frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
-      ) {
-        this.decoy.needsCoolDown = true;
-        this.decoy.exists = false;
-        for (let agent of [...this.enemies]) {
-          agent.target = this.player;
-        }
-        
-      } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
+      if (isPlaying) {
         if (
-          frameCount >
-          this.decoy.initialFrameCount + 300 + this.decoy.coolDown
+          this.decoy.exists &&
+          frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
         ) {
-          this.decoy.needsCoolDown = false;
+          this.decoy.draw();
+          decoyProgress.style.width = "0%";
+        } else if (
+          this.decoy.exists &&
+          frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
+        ) {
+          this.decoy.needsCoolDown = true;
+          this.decoy.exists = false;
+          for (let agent of [...this.enemies]) {
+            agent.target = this.player;
+          }
+        } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
+          if (
+            frameCount >
+            this.decoy.initialFrameCount + 300 + this.decoy.coolDown
+          ) {
+            this.decoy.needsCoolDown = false;
+          }
         }
-
-      }
-      for (let agent of [this.player, ...this.enemies]) {
-        agent.move(this.field);
-        agent.draw();
+        for (let agent of [this.player, ...this.enemies]) {
+          agent.move(this.field);
+          agent.draw();
+        }
       }
     }
   },
@@ -245,7 +247,7 @@ const game = {
   },
   didBoost() {
     let numHit = 0;
-    if (frameCount % (300 * level) === 0) {
+    if (frameCount % (300 * level) === 0 && isPlaying) {
       this.boost = new Boost(
         random(jarField.start, jarField.end),
         random(jarField.start, jarField.end)
@@ -324,12 +326,11 @@ const game = {
       );
       isPlaying = false;
     }
-    
   },
   restart() {
     // Restart
     //loop();
-    game.initialize()
+    game.initialize();
     isPlaying = true;
   }
 };
