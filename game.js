@@ -138,17 +138,18 @@ class Decoy {
     ) {
       this.exists = false;
       this.decoyTime = frameCount
-      console.log(decoyTime)
+      console.log(this.decoyTime)
       for (let agent of [...game.enemies]) {
         agent.target = game.player;
       }
      
     } 
     else if (!this.exists && this.needsCoolDown) {
-       this.decoyTime -= 1 / 60;
-      //console.log(frameCount - this.coolDownInitialFrameCount)
-      decoyProgress.textContent = this.coolDownInitialFrameCount+ "%";
-      decoyProgress.style.width = this.decoyTime + "%";
+      //this.decoyTime -= 1 / 60;
+      const decoyWidth = (frameCount - this.decoyTime)/3
+      console.log(decoyWidth)
+      decoyProgress.textContent = decoyWidth + "%";
+      decoyProgress.style.width = (decoyWidth) + "%";
     } else if(!this.exists && !this.needsCoolDown){
       decoyProgress.textContent = "Click to Drop a Decoy";
       decoyProgress.style.width = "100%";
