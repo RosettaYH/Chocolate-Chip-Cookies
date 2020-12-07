@@ -109,7 +109,7 @@ class Decoy {
     this.InitialFrameCount = undefined;
     this.needsCoolDown = false;
     this.screenTime = 300;
-    this.coolDown = 300;
+    this.coolDown = this.screenTime + 300;
   }
   draw() {
     image(
@@ -193,22 +193,28 @@ const game = {
         ) {
           this.decoy.draw();
           decoyProgress.style.width = "0%";
+          this.decoy.needsCoolDown = true;
         } else if (
           this.decoy.exists &&
           frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
         ) {
-          this.decoy.needsCoolDown = true;
+          //this.decoy.needsCoolDown = true;
           this.decoy.exists = false;
           for (let agent of [...this.enemies]) {
             agent.target = this.player;
           }
-        } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
+        } else if (!this.decoy.exists && this.decoy.needsCoolDown) {
           if (
             frameCount >
             this.decoy.initialFrameCount + 300 + this.decoy.coolDown
           ) {
             this.decoy.needsCoolDown = false;
+            console.log("running")
           }
+          
+        } else if(!this.decoy.exists && !this.decoy.needsCoolDown){
+          decoyProgress.style.width = "100%"
+
         }
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
