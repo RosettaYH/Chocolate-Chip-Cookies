@@ -106,7 +106,7 @@ class Decoy {
   constructor(x, y) {
     Object.assign(this, { x, y });
     this.exists = false;
-    this.InitialFrameCount = undefined;
+    this.initialFrameCount = undefined;
     this.needsCoolDown = false;
     this.screenTime = 300;
     this.coolDown = this.screenTime + 300;
@@ -123,25 +123,25 @@ class Decoy {
   
   handleExistingDecoy(){
     if (
-          this.decoy.exists &&
-          frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
+          this.exists &&
+          frameCount < this.initialFrameCount + this.screenTime
         ) {
-          this.decoy.draw();
-          this.decoy.needsCoolDown = true;
+          this.draw();
+          this.needsCoolDown = true;
           decoyProgress.style.width = "0%";
         } else if (
-          this.decoy.exists &&
-          frameCount > this.decoy.initialFrameCount + this.decoy.screenTime
+          this.exists &&
+          frameCount > this.initialFrameCount + this.screenTime
         ) {
-          this.decoy.exists = false;
-          for (let agent of [...this.enemies]) {
-            agent.target = this.player;
-          }
+          this.exists = false;
+          // for (let agent of [...this.enemies]) {
+          //   agent.target = this.player;
+          //}
+          game.attackPlayer()
         } 
   }
   handleCoolDown(){
-    
-  }
+}
 
 }
 
@@ -210,6 +210,10 @@ const game = {
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
       if (isPlaying) {
+        console.log(this.decoy)
+        if(this.decoy.exists){
+          this.decoy.handleExistingDecoy()
+        }
         // if (
         //   this.decoy.exists &&
         //   frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
@@ -226,9 +230,7 @@ const game = {
         //     agent.target = this.player;
         //   }
         // } 
-        if(this.decoy.exists){
-      this.decoy.handleExistingDecoy()
-        }
+      
         if (
           this.decoy.needsCoolDown &&
           frameCount > this.decoy.initialFrameCount + this.decoy.coolDown
