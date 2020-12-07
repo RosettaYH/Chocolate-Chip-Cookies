@@ -202,13 +202,6 @@ const game = {
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
         }
-       
-        let count = 0;
-        for (let i = 0; i < this.decoy.initialFrameCount + 300; i++) {
-          count += 1;
-        }
-        
-        decoyProgress.style.width =  secondsLabel.textContent + "%";
         
       } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
         if (
