@@ -213,13 +213,9 @@ const game = {
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
       if (isPlaying) {
-        // if (this.decoy.exists) {
-        //   this.decoy.handleExistingDecoy();
-        // }
         if (Object.keys(this.decoy).length > 0) {
           this.decoy.handleCoolDown();
-                    this.decoy.handleExistingDecoy();
-
+          this.decoy.handleExistingDecoy();
         }
         if (!this.decoy.exists && !this.decoy.needsCoolDown) {
           decoyProgress.style.width = "100%";
