@@ -170,7 +170,7 @@ const game = {
     healthProgress.style.width = this.hitScore + "%";
     healthProgress.textContent = this.hitScore + "%";
 
-    decoyProgress.style.width = "100%";
+    decoyProgress.style.width = "0%";
     decoyProgress.textContent = "100%";
     
 },
@@ -191,7 +191,7 @@ const game = {
       if (
         this.decoy.exists &&
         frameCount < this.decoy.initialFrameCount + this.decoy.screenTime
-      ) {
+      ) { 
         this.decoy.draw();
       } else if (
         this.decoy.exists &&
@@ -202,13 +202,20 @@ const game = {
         for (let agent of [...this.enemies]) {
           agent.target = this.player;
         }
+        decoyProgress.style.width = "0%";
       } else if (!this.decoy.exists & this.decoy.needsCoolDown) {
+        let count = 0
         if (
           frameCount >
           this.decoy.initialFrameCount + 300 + this.decoy.coolDown
         ) {
+          for(let i = 0; i < 300; i++){
+            count += 1
+          }
           this.decoy.needsCoolDown = false;
         }
+        
+        decoyProgress.style.width = count+"%";
       }
       for (let agent of [this.player, ...this.enemies]) {
         agent.move(this.field);
@@ -235,6 +242,8 @@ const game = {
         this.hitScore -= 10;
         if (this.hitScore <= 10) {
           healthProgress.style.backgroundColor = color(220, 53, 69);
+        } else {
+          healthProgress.style.backgroundColor = color(40, 167, 69);
         }
         healthProgress.style.width = this.hitScore + "%";
         healthProgress.textContent = this.hitScore + "%";

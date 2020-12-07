@@ -41,7 +41,9 @@ img {
   background-color: #28a745;
 }
 
-#ffc107
+#decoyProgress {
+  background-color: #ffc107;
+}
 
 #time {
   background-color: #ffffff;
