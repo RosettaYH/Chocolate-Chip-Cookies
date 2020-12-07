@@ -136,9 +136,15 @@ class Decoy {
       }
     }
   }
-  
+
   handleCoolDown() {
-    console.log("handle cool down")
+    console.log("handle cool down");
+    if (
+      this.needsCoolDown &&
+      frameCount > this.initialFrameCount + this.coolDown
+    ) {
+      this.needsCoolDown = false;
+    }
   }
 }
 
@@ -207,21 +213,18 @@ const game = {
       text("↑Pick a Level↑", jarField.start, jarField.end / 2);
     } else {
       if (isPlaying) {
-        //console.log(this.decoy)
-        if (this.decoy.exists) {
-          this.decoy.handleExistingDecoy();
+        // if (this.decoy.exists) {
+        //   this.decoy.handleExistingDecoy();
+        // }
+        if (Object.keys(this.decoy).length > 0) {
+          this.decoy.handleCoolDown();
+                    this.decoy.handleExistingDecoy();
+
         }
-        this.decoy.handleCoolDown();
-        if (
-          this.decoy.needsCoolDown &&
-          frameCount > this.decoy.initialFrameCount + this.decoy.coolDown
-        ) {
-          this.decoy.needsCoolDown = false;
-        } else if (!this.decoy.exists && !this.decoy.needsCoolDown) {
+        if (!this.decoy.exists && !this.decoy.needsCoolDown) {
           decoyProgress.style.width = "100%";
         }
-        
-        
+
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
           agent.draw();
