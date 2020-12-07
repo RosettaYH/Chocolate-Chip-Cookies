@@ -1,4 +1,5 @@
-const health = document.querySelector("#health");
+const healthProgress = document.querySelector("#healthProgress");
+const decoyProgress = document.querySelector("#decoyProgress");
 
 let jarField = {};
 
@@ -166,9 +167,13 @@ const game = {
 
     this.hit = false;
     this.hitScore = 100;
-    health.style.width = this.hitScore + "%";
-    health.textContent = this.hitScore + "%";
-  },
+    healthProgress.style.width = this.hitScore + "%";
+    healthProgress.textContent = this.hitScore + "%";
+
+    decoyProgress.style.width = "100%";
+    decoyProgress.textContent = "100%";
+    
+},
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
@@ -229,10 +234,10 @@ const game = {
         // Only decrement health when hit the first time
         this.hitScore -= 10;
         if (this.hitScore <= 10) {
-          health.style.backgroundColor = color(220, 53, 69);
+          healthProgress.style.backgroundColor = color(220, 53, 69);
         }
-        health.style.width = this.hitScore + "%";
-        health.textContent = this.hitScore + "%";
+        healthProgress.style.width = this.hitScore + "%";
+        healthProgress.textContent = this.hitScore + "%";
         numHit = 0;
       }
     }
@@ -265,8 +270,8 @@ const game = {
     if (this.boostHit && numHit === 1) {
       if (this.hitScore < 100) {
         this.hitScore += 10;
-        health.style.width = this.hitScore + "%";
-        health.textContent = this.hitScore + "%";
+        healthProgress.style.width = this.hitScore + "%";
+        healthProgress.textContent = this.hitScore + "%";
       }
 
       this.boostExists = false;

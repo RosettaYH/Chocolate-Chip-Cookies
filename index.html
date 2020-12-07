@@ -36,15 +36,13 @@
             How To Play
           </button>
         </div>
-        <div class="col" id="levels">
-        </div>
+        <div class="col" id="levels"></div>
         <div class="col">
-          <button class="btn mb-3" id="time"> Time:
-            <span id="minutes">00</span>:<span id="seconds">00</span>
+          <button class="btn mb-3" id="time">
+            Time: <span id="minutes">00</span>:<span id="seconds">00</span>
           </button>
         </div>
       </div>
-      <!-- Button trigger modal -->
 
       <!-- Modal -->
       <div
@@ -84,19 +82,43 @@
           </div>
         </div>
       </div>
-      <div class="progress mb-3">
-        <div
-          class="progress-bar"
-          role="progressbar"
-          style="width: 0%"
-          aria-valuenow="25"
-          aria-valuemin="0"
-          aria-valuemax="100"
-          id="health"
-        >
-          25%
+      <div class="row">
+        <div class="col">
+           <img
+            src="https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fsugar.png?v=1607235169787"
+            alt=""
+          />
+          <div class="progress mb-3">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              id="healthProgress"
+            >
+              25%
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="progress mb-3">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              style="width: 0%"
+              aria-valuenow="0"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              id="decoyProgress"
+            >
+              25%
+            </div>
+          </div>
         </div>
       </div>
+
       <div id="sketch"></div>
     </div>
 
