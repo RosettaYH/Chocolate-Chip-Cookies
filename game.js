@@ -294,23 +294,24 @@ const game = {
   checkEnemyCollision(){
     for(let i = 0; i < this.enemies.length; i++){
       for(let j = i + 1; j < this.enemies.length; j++){
-        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 40, this.enemies[j].x, this.enemies[j].y, 40)){
+        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 50, this.enemies[j].x, this.enemies[j].y, 50)){
           this.adjustEnemies(this.enemies[i], this.enemies[j])
         }
       }
     }
   },
   adjustEnemies(enemy1, enemy2){
+    let adjustment = 0.8
     if(enemy1.x > enemy2.x){
-      enemy1.x += 1
+      enemy1.x += adjustment
     } else{
-      enemy2.x += 1
+      enemy2.x += adjustment
     }
     
     if(enemy1.y > enemy2.y){
-      enemy1.y += 1
+      enemy1.y += adjustment
     } else{
-      enemy2.y += 1
+      enemy2.y += adjustment
     }
   },
   mouseClicked() {
