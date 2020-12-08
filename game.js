@@ -17,6 +17,7 @@ function draw() {
   game.update();
   game.didBoost();
   game.checkEnemyCollision();
+  game.checkDecoyCollision();
   game.gameOver();
 }
 
@@ -342,8 +343,18 @@ const game = {
   },
   checkDecoyCollision() {
     if (this.decoy.exists) {
-      for (let i = 0; i < this.enemies.length; i++) {}
+      console.log("exists")
+      for (let i = 0; i < this.enemies.length; i++) {
+        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 50, this.decoy.x, this.decoy.y, 50)){
+          this.hoverEnemy(this.enemies[i], this.enemies[i].speed)
+          //ellipse(this.decoy.x, this.decoy.y, 50)
+        }
+      }
     }
+  },
+  hoverEnemy(enemy, this.enemies[i].speed){
+    // console.log("hover")
+    // enemy.speed = 0
   },
   mouseClicked() {
     if (
