@@ -32,7 +32,7 @@ function mouseClicked() {
   } else {
     const mouseInsideCanvas =
       mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height;
-    if (mouseInsideCanvas) {
+    if (mouseInsideCanvas && level !== 0) {
       game.restart();
     }
   }
@@ -127,8 +127,6 @@ class Decoy {
   }
 
   handleExistingDecoy() {
-    //let coolDownInitialFrameCount = 0
-    console.log(this.needCoolDown);
     if (this.exists && frameCount < this.initialFrameCount + this.screenTime) {
       this.draw();
       this.needsCoolDown = true;
@@ -299,6 +297,11 @@ const game = {
     if (this.boostHit && numHit === 1) {
       if (this.hitScore < 100) {
         this.hitScore += 10;
+        if (this.hitScore <= 10) {
+          healthProgress.style.backgroundColor = color(220, 53, 69);
+        } else {
+          healthProgress.style.backgroundColor = color(40, 167, 69);
+        }
         healthProgress.style.width = this.hitScore + "%";
         healthProgress.textContent = this.hitScore + "%";
       }
@@ -343,16 +346,25 @@ const game = {
   checkDecoyCollision() {
     if (this.decoy.exists) {
       for (let i = 0; i < this.enemies.length; i++) {
-        if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 50, this.decoy.x, this.decoy.y, 50)){
-          this.hoverEnemy(this.enemies[i], this.enemies[i].speed)
+        if (
+          collideCircleCircle(
+            this.enemies[i].x,
+            this.enemies[i].y,
+            50,
+            this.decoy.x,
+            this.decoy.y,
+            50
+          )
+        ) {
+          this.hoverEnemy(this.enemies[i], this.enemies[i].speed);
         }
       }
     }
   },
-  hoverEnemy(enemy, speed){
-    let adjustment = 1
-    enemy.x += adjustment
-    enemy.y += adjustment
+  hoverEnemy(enemy, speed) {
+    let adjustment = 1;
+    enemy.x += adjustment;
+    enemy.y += adjustment;
   },
   mouseClicked() {
     if (
