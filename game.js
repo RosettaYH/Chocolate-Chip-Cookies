@@ -325,7 +325,6 @@ const game = {
     }
   },
   adjustEnemies(enemy1, enemy2) {
-    //TO-DO: prevent enemies from overlapping when attacking decoy
     let adjustment = 0.5;
     if (enemy1.x > enemy2.x) {
       enemy1.x += adjustment;
@@ -343,18 +342,17 @@ const game = {
   },
   checkDecoyCollision() {
     if (this.decoy.exists) {
-      console.log("exists")
       for (let i = 0; i < this.enemies.length; i++) {
         if(collideCircleCircle(this.enemies[i].x, this.enemies[i].y, 50, this.decoy.x, this.decoy.y, 50)){
           this.hoverEnemy(this.enemies[i], this.enemies[i].speed)
-          //ellipse(this.decoy.x, this.decoy.y, 50)
         }
       }
     }
   },
-  hoverEnemy(enemy, this.enemies[i].speed){
-    // console.log("hover")
-    // enemy.speed = 0
+  hoverEnemy(enemy, speed){
+    let adjustment = 1
+    enemy.x += adjustment
+    enemy.y += adjustment
   },
   mouseClicked() {
     if (
