@@ -127,7 +127,7 @@ class Decoy {
 
   handleExistingDecoy() {
     //let coolDownInitialFrameCount = 0
-    console.log(this.needCoolDown)
+    console.log(this.needCoolDown);
     if (this.exists && frameCount < this.initialFrameCount + this.screenTime) {
       this.draw();
       this.needsCoolDown = true;
@@ -136,18 +136,16 @@ class Decoy {
       frameCount > this.initialFrameCount + this.screenTime
     ) {
       this.exists = false;
-      this.coolDownInitialFrameCount = frameCount
+      this.coolDownInitialFrameCount = frameCount;
       for (let agent of [...game.enemies]) {
         agent.target = game.player;
       }
-     
-    } 
-    else if (!this.exists && this.needsCoolDown) {
-      const decoyWidth = (frameCount - this.coolDownInitialFrameCount)/3
-      console.log(decoyWidth)
+    } else if (!this.exists && this.needsCoolDown) {
+      const decoyWidth = (frameCount - this.coolDownInitialFrameCount) / 3;
+      console.log(decoyWidth);
       decoyProgress.style.width = decoyWidth + "%";
       decoyProgress.textContent = "";
-    } else if(!this.exists && !this.needsCoolDown){
+    } else if (!this.exists && !this.needsCoolDown) {
       decoyProgress.textContent = "Click to Drop a Decoy";
       decoyProgress.style.width = "100%";
     }
@@ -307,7 +305,6 @@ const game = {
       this.boostExists = false;
     }
   },
-
   checkEnemyCollision() {
     for (let i = 0; i < this.enemies.length; i++) {
       for (let j = i + 1; j < this.enemies.length; j++) {
@@ -328,30 +325,25 @@ const game = {
   },
   adjustEnemies(enemy1, enemy2) {
     //TO-DO: prevent enemies from overlapping when attacking decoy
-    let adjustment = 0.8;
-    push()
-      fill("limegreen")
-      console.log("hit")
-      ellipse(enemy1.x, enemy1.y, 4)
-      fill("red")
-      ellipse(enemy2.x, enemy2.y, 4)
-      pop()
+    let adjustment = 0.5;
     if (enemy1.x > enemy2.x) {
       enemy1.x += adjustment;
       enemy2.x -= adjustment;
-    } 
-    
-    // else {
-    //   enemy2.x += adjustment;
-    // }
-
-    if (enemy1.y > enemy2.y) {
+    } else if (enemy2.x > enemy1.x) {
+      enemy1.x -= adjustment;
+      enemy2.x += adjustment;
+    } else if (enemy1.y > enemy2.y) {
       enemy1.y += adjustment;
-    } 
-    
-    // else {
-    //   enemy2.y += adjustment;
-    // }
+      enemy2.y -= adjustment;
+    } else {
+      enemy1.y -= adjustment;
+      enemy2.y += adjustment;
+    }
+  },
+  checkDecoyCollision() {
+    if (this.decoy.exists) {
+      for (let i = 0; i < this.enemies.length; i++) {}
+    }
   },
   mouseClicked() {
     if (
