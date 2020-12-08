@@ -210,7 +210,7 @@ const game = {
     decoyProgress.style.width = "100%";
     decoyProgress.textContent = "Click to Drop a Decoy";
 
-    //this.decoyTime = 0
+    totalSeconds = 0
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
