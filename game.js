@@ -329,17 +329,29 @@ const game = {
   adjustEnemies(enemy1, enemy2) {
     //TO-DO: prevent enemies from overlapping when attacking decoy
     let adjustment = 0.8;
+    push()
+      fill("limegreen")
+      console.log("hit")
+      ellipse(enemy1.x, enemy1.y, 4)
+      fill("red")
+      ellipse(enemy2.x, enemy2.y, 4)
+      pop()
     if (enemy1.x > enemy2.x) {
       enemy1.x += adjustment;
-    } else {
-      enemy2.x += adjustment;
-    }
+      enemy2.x -= adjustment;
+    } 
+    
+    // else {
+    //   enemy2.x += adjustment;
+    // }
 
     if (enemy1.y > enemy2.y) {
       enemy1.y += adjustment;
-    } else {
-      enemy2.y += adjustment;
-    }
+    } 
+    
+    // else {
+    //   enemy2.y += adjustment;
+    // }
   },
   mouseClicked() {
     if (
