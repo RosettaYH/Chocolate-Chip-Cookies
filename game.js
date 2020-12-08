@@ -292,6 +292,7 @@ const game = {
       );
       if (this.boostHit) {
         numHit += 1;
+        collectSugarSound.play()
       }
       this.boost.draw();
     }
