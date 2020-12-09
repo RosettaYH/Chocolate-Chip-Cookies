@@ -69,8 +69,8 @@ class Field {
 }
 
 class Agent {
-  constructor(x, y, speed, target) {
-    Object.assign(this, { x, y, speed, target });
+  constructor(x, y, speed, target, diameter) {
+    Object.assign(this, { x, y, speed, target, diameter });
   }
   move(field) {
     const [dx, dy] = [this.target.x - this.x, this.target.y - this.y];
@@ -107,8 +107,8 @@ class Enemy extends Agent {
 }
 
 class Decoy {
-  constructor(x, y) {
-    Object.assign(this, { x, y });
+  constructor(x, y, diameter) {
+    Object.assign(this, { x, y, diameter });
     this.exists = false;
     this.initialFrameCount = undefined;
     this.needsCoolDown = false;
@@ -141,7 +141,6 @@ class Decoy {
       }
     } else if (!this.exists && this.needsCoolDown) {
       const decoyWidth = (frameCount - this.coolDownInitialFrameCount) / 3;
-      console.log(decoyWidth);
       decoyProgress.style.width = decoyWidth + "%";
       decoyProgress.textContent = "";
     } else if (!this.exists && !this.needsCoolDown) {
@@ -161,8 +160,8 @@ class Decoy {
 }
 
 class Boost {
-  constructor(x, y) {
-    Object.assign(this, { x, y });
+  constructor(x, y, diameter) {
+    Object.assign(this, { x, y, diameter });
   }
   draw() {
     image(
@@ -184,7 +183,7 @@ const game = {
     healthProgress.style.backgroundColor = color(40, 167, 69);
 
     this.mouse = { x: 0, y: 0 };
-    this.player = new Player(jarField.end / 2, jarField.end / 2, 5, this.mouse);
+    this.player = new Player(jarField.end / 2, jarField.end / 2, 5, this.mouse, 80);
     this.enemiesNumber = 3 * level;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -193,7 +192,7 @@ const game = {
           random(jarField.start, jarField.end),
           random(jarField.start, jarField.end),
           random(1, 2),
-          this.player
+          this.player, 40
         )
       );
     }
@@ -211,6 +210,7 @@ const game = {
     decoyProgress.textContent = "Click to Drop a Decoy";
 
     totalSeconds = 0
+    isPlaying = true
   },
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
@@ -228,12 +228,6 @@ const game = {
           this.decoy.handleCoolDown();
           this.decoy.handleExistingDecoy();
         }
-
-        // if (!this.decoy.exists && !this.decoy.needsCoolDown) {
-        //   this.decoyTime += 1 / 60;
-        //   decoyProgress.style.width = this.decoyTime + "%"
-        // }
-        //decoyProgress.style.width = `${this.progressBar}%`;
         for (let agent of [this.player, ...this.enemies]) {
           agent.move(this.field);
           agent.draw();
@@ -247,16 +241,15 @@ const game = {
       this.hit = collideCircleCircle(
         this.player.x,
         this.player.y,
-        80,
+        this.player.diameter,
         enemy.x,
         enemy.y,
-        40
+        enemy.diameter
       );
       if (this.hit) {
         numHit += 1;
       }
       if (this.hit && numHit === 1) {
-        // Only decrement health when hit the first time
         this.hitScore -= 10;
         if (this.hitScore <= 10) {
           healthProgress.style.backgroundColor = color(220, 53, 69);
@@ -274,7 +267,7 @@ const game = {
     if (frameCount % (300 * level) === 0 && isPlaying) {
       this.boost = new Boost(
         random(jarField.start, jarField.end),
-        random(jarField.start, jarField.end)
+        random(jarField.start, jarField.end), 80
       );
       this.boostExists = true;
     }
@@ -283,10 +276,10 @@ const game = {
       this.boostHit = collideCircleCircle(
         this.player.x,
         this.player.y,
-        80,
+        this.player.diameter,
         this.boost.x,
         this.boost.y,
-        80
+        this.boost.diameter
       );
       if (this.boostHit) {
         numHit += 1;
@@ -316,10 +309,10 @@ const game = {
           collideCircleCircle(
             this.enemies[i].x,
             this.enemies[i].y,
-            50,
+            this.enemies[i].diameter,
             this.enemies[j].x,
             this.enemies[j].y,
-            50
+            this.enemies[j].diameter
           )
         ) {
           this.adjustEnemies(this.enemies[i], this.enemies[j]);
@@ -350,10 +343,10 @@ const game = {
           collideCircleCircle(
             this.enemies[i].x,
             this.enemies[i].y,
-            50,
+            this.enemies[i].diameter,
             this.decoy.x,
             this.decoy.y,
-            50
+            this.decoy.diameter
           )
         ) {
           this.hoverEnemy(this.enemies[i], this.enemies[i].speed);
@@ -374,7 +367,7 @@ const game = {
       mouseY <= jarField.end
     ) {
       if (!this.decoy.needsCoolDown && !this.decoy.exists) {
-        this.decoy = new Decoy(mouseX, mouseY);
+        this.decoy = new Decoy(mouseX, mouseY, 50);
         this.decoy.initialFrameCount = frameCount;
         this.decoy.needsCoolDown = true;
         this.decoy.exists = true;
@@ -391,7 +384,6 @@ const game = {
   },
   gameOver() {
     if (this.hitScore <= 0) {
-      //noLoop();
       image(
         chocolateChipCookieImage,
         this.player.x - chocolateChipCookieImage.width / 2,
@@ -418,6 +410,5 @@ const game = {
   },
   restart() {
     game.initialize();
-    isPlaying = true;
   }
 };
