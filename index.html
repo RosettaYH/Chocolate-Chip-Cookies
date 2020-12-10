@@ -13,7 +13,6 @@
       href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap"
       rel="stylesheet"
     />
-
     <!-- Bootstrap css -->
     <link
       rel="stylesheet"
@@ -40,7 +39,11 @@
             How To Play
           </button>
         </div>
-        <div class="col" id="levels"></div>
+        <div class="col">
+          <div id="levels"></div>
+          <div id="modes"></div>
+        </div>
+
         <div class="col">
           <button class="btn mb-3" id="time">
             Time: <span id="minutes">00</span>:<span id="seconds">00</span>
@@ -72,6 +75,7 @@
             </div>
             <div class="modal-body">
               <ol>
+                <li>First pick a level, and then a mode</li>
                 <li>Use the mouse to move the plain cookie inside the jar</li>
                 <li>Avoid the chocolate chips</li>
                 <li>Click to drop a decoy (last for 5 seconds)</li>
@@ -131,6 +135,7 @@
     <!-- p5.js Javascripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
     <script defer src="https://unpkg.com/p5.collide2d"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
     <!-- Bootstrap Javascripts -->
     <script
@@ -147,6 +152,6 @@
     <script src="game.js"></script>
     <script src="level.js"></script>
     <script src="time.js"></script>
-
+    <script src="modes.js"></script>
   </body>
 </html>
