@@ -16,11 +16,13 @@ app.get("/", (request, response) => {
 // client connects, we set things up to respond to its
 // "mouse" events by broadcasting its position to every
 // other client.
+const clientSockets = [];
+
 io.on("connection", socket => {
+  clientSockets.push(socket);
   socket.on("player", playerData => {
     socket.broadcast.emit("player", playerData);
   });
-
   socket.on("decoy", decoyData => {
     socket.broadcast.emit("decoy", decoyData);
   });

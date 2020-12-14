@@ -3,7 +3,6 @@ let chocolateChipImage;
 let darkChocolateCookieImage;
 let chocolateChipCookieImage;
 let sugarImage;
-
 let jarImage;
 
 function preload() {

@@ -1,6 +1,6 @@
 const healthProgress = document.querySelector("#healthProgress");
 const decoyProgress = document.querySelector("#decoyProgress");
-const scaleFactor = 2.5
+const scaleFactor = 2.5;
 
 let jarField = {};
 
@@ -12,7 +12,7 @@ function setup() {
     start: jarImage.width / scaleFactor,
     end: jarImage.width * scaleFactor + jarImage.width / scaleFactor
   };
-  socket = io.connect("https://rosettayh.github.io/Chocolate-Chip-Cookies/");
+  socket = io.connect("https://cmsi-185-hw6.glitch.me/");
   socket.on("player", updatePlayer);
   socket.on("decoy", updateDecoy);
   socket.on("enemies", updateEnemies);
@@ -24,7 +24,7 @@ function draw() {
 }
 
 function updatePlayer(data) {
-  console.log("player" + data)
+  console.log("player" + data);
   game.update(data);
 }
 
@@ -54,6 +54,16 @@ function mouseClicked() {
       game.restart();
     }
   }
+}
+
+function scaleGameImage(gameImage, scale, x, y) {
+  image(
+    gameImage,
+    x - gameImage.width / scale,
+    y - gameImage.width / scale,
+    gameImage.width / (scale / 2),
+    gameImage.width / (scale / 2)
+  );
 }
 
 class Field {
@@ -91,38 +101,24 @@ class Agent {
     Object.assign(this, { x, y, speed, target, diameter });
   }
   move(field) {
-    //for (target of this.targets) {
     const [dx, dy] = [this.target.x - this.x, this.target.y - this.y];
     const distance = Math.hypot(dx, dy);
     if (distance > 1) {
       const step = this.speed / distance;
       Object.assign(this, field.clamp(this.x + step * dx, this.y + step * dy));
     }
-    //}
   }
 }
 
 class Player extends Agent {
   draw() {
-    image(
-      plainCookieImage,
-      this.x - plainCookieImage.width / 4,
-      this.y - plainCookieImage.height / 4,
-      plainCookieImage.width / 2,
-      plainCookieImage.height / 2
-    );
+    scaleGameImage(plainCookieImage, 4, this.x, this.y);
   }
 }
 
 class Enemy extends Agent {
   draw() {
-    image(
-      chocolateChipImage,
-      this.x - chocolateChipImage.width / 4,
-      this.y - chocolateChipImage.height / 4,
-      chocolateChipImage.width / 2,
-      chocolateChipImage.height / 2
-    );
+    scaleGameImage(chocolateChipImage, 4, this.x, this.y);
   }
 }
 
@@ -138,13 +134,7 @@ class Decoy {
     this.coolDownInitialFrameCount = 0;
   }
   draw() {
-    image(
-      darkChocolateCookieImage,
-      this.x - darkChocolateCookieImage.width / 4,
-      this.y - darkChocolateCookieImage.height / 4,
-      darkChocolateCookieImage.width / 2,
-      darkChocolateCookieImage.height / 2
-    );
+    scaleGameImage(darkChocolateCookieImage, 4, this.x, this.y);
   }
   handleExistingDecoy() {
     if (this.exists && frameCount < this.initialFrameCount + this.screenTime) {
@@ -158,7 +148,7 @@ class Decoy {
       this.exists = false;
       this.coolDownInitialFrameCount = frameCount;
       for (let agent of [...game.enemies]) {
-        agent.target = game.players;
+        agent.target = game.player;
       }
     } else if (!this.exists && this.needsCoolDown) {
       const decoyWidth = (frameCount - this.coolDownInitialFrameCount) / 3;
@@ -184,13 +174,7 @@ class Boost {
     Object.assign(this, { x, y, diameter });
   }
   draw() {
-    image(
-      sugarImage,
-      this.x - sugarImage.width / 12,
-      this.y - sugarImage.height / 12,
-      sugarImage.width / 6,
-      sugarImage.height / 6
-    );
+    scaleGameImage(sugarImage, 12, this.x, this.y);
   }
 }
 
@@ -199,11 +183,10 @@ const game = {
     const canvas = createCanvas(900, 800);
     canvas.parent("sketch");
     noStroke();
-
+    
     this.field = new Field(jarField.start, jarField.end, [135, 200, 230]);
-
     this.mouse = { x: jarField.end / 2, y: jarField.end / 2 };
-
+    
     this.players = [];
     this.player = new Player(
       jarField.end / 2,
@@ -213,7 +196,6 @@ const game = {
       80
     );
     this.players.push(this.player);
-
     if (mode === 2) {
       this.otherMouse = { x: 0, y: 0 };
       this.otherPlayer = new Player(
@@ -225,7 +207,7 @@ const game = {
       );
       this.players.push(this.otherPlayer);
     }
-
+    
     this.enemiesNumber = 3 * level;
     this.enemies = [];
     for (let i = 0; i < this.enemiesNumber; i++) {
@@ -250,6 +232,8 @@ const game = {
 
     this.hit = false;
     this.hitScore = 100;
+    this.healthPerHit = 10;
+    this.maxHealth = 100;
     healthProgress.style.width = this.hitScore + "%";
     healthProgress.textContent = this.hitScore + "%";
     healthProgress.style.backgroundColor = color(40, 167, 69);
@@ -257,11 +241,11 @@ const game = {
     totalSeconds = 0;
     isPlaying = true;
   },
-  
+
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
-  
+
   update(playerOtherData) {
     this.field.clear();
 
@@ -287,8 +271,7 @@ const game = {
     }
     if (playerOtherData !== "") {
       Object.assign(this.otherMouse, playerOtherData);
-      console.log(this.otherMouse)
-
+      console.log(this.otherMouse);
     }
     game.didBoost();
     game.checkEnemyCollision();
@@ -312,7 +295,6 @@ const game = {
       }
       if (this.hit && numHit === 1 && this.hitScore > 0) {
         this.hitScore -= 1;
-        //console.log(`score: ${this.hitScore}`)
         if (this.hitScore <= 10) {
           healthProgress.style.backgroundColor = color(220, 53, 69);
         } else {
@@ -324,7 +306,7 @@ const game = {
       }
     }
   },
-  
+
   didBoost() {
     let numHit = 0;
     if (frameCount % (300 * level) === 0 && isPlaying) {
@@ -335,7 +317,6 @@ const game = {
       );
       this.boostExists = true;
     }
-
     if (this.boostExists) {
       this.boostHit = collideCircleCircle(
         this.player.x,
@@ -350,12 +331,11 @@ const game = {
       }
       this.boost.draw();
     }
-
     if (this.boostHit && numHit === 1) {
-      if (this.hitScore < 100) {
-        this.hitScore += 10;
-        if (this.hitScore > 100) {
-          this.hitScore = 100;
+      if (this.hitScore < this.maxHealth) {
+        this.hitScore += this.healthPerHit;
+        if (this.hitScore > this.maxHealth) {
+          this.hitScore = this.maxHealth;
         }
         if (this.hitScore <= 10) {
           healthProgress.style.backgroundColor = color(220, 53, 69);
@@ -371,24 +351,24 @@ const game = {
   },
   
   checkEnemyCollision() {
-    for (let i = 0; i < this.enemies.length; i++) {
-      for (let j = i + 1; j < this.enemies.length; j++) {
+    for (let enemy of this.enemies) {
+      for (let nextEnemy of this.enemies) {
         if (
           collideCircleCircle(
-            this.enemies[i].x,
-            this.enemies[i].y,
-            this.enemies[i].diameter,
-            this.enemies[j].x,
-            this.enemies[j].y,
-            this.enemies[j].diameter
+            enemy.x,
+            enemy.y,
+            enemy.diameter,
+            nextEnemy.x,
+            nextEnemy.y,
+            nextEnemy.diameter
           )
         ) {
-          this.adjustEnemies(this.enemies[i], this.enemies[j]);
+          this.adjustEnemies(enemy, nextEnemy);
         }
       }
     }
   },
-  
+
   adjustEnemies(enemy1, enemy2) {
     let adjustment = 0.5;
     if (enemy1.x > enemy2.x) {
@@ -403,6 +383,32 @@ const game = {
     } else {
       enemy1.y -= adjustment;
       enemy2.y += adjustment;
+    }
+  },
+  
+  setDecoy(decoyData) {
+    if (
+      mouseX >= jarField.start &&
+      mouseX <= jarField.end &&
+      mouseY >= jarField.start &&
+      mouseY <= jarField.end
+    ) {
+      if (!this.decoy.needsCoolDown && !this.decoy.exists && level !== 0) {
+        if (decoyData !== "") {
+          console.log(decoyData);
+          this.decoy = new Decoy(decoyData.x, decoyData.x, 50);
+        } else {
+          this.decoy = new Decoy(mouseX, mouseY, 50);
+        }
+
+        this.decoy.initialFrameCount = frameCount;
+        this.decoy.needsCoolDown = true;
+        this.decoy.exists = true;
+        decoyProgress.style.width = "0%";
+        for (let agent of [...this.enemies]) {
+          agent.target = this.decoy;
+        }
+      }
     }
   },
   
@@ -430,37 +436,11 @@ const game = {
     enemy.x += adjustment;
     enemy.y += adjustment;
   },
-  
+ 
   mouseClicked(decoyData) {
-    if (
-      mouseX >= jarField.start &&
-      mouseX <= jarField.end &&
-      mouseY >= jarField.start &&
-      mouseY <= jarField.end
-    ) {
-      if (!this.decoy.needsCoolDown && !this.decoy.exists && level !== 0) {
-        if (decoyData !== "") {
-          console.log(decoyData);
-          this.decoy = new Decoy(decoyData.x, decoyData.x, 50);
-        } else {
-          this.decoy = new Decoy(mouseX, mouseY, 50);
-        }
-
-        this.decoy.initialFrameCount = frameCount;
-        this.decoy.needsCoolDown = true;
-        this.decoy.exists = true;
-        decoyProgress.style.width = "0%";
-        for (let agent of [...this.enemies]) {
-          agent.target = this.decoy;
-        }
-      }
-
-      if (this.decoy.needsCoolDown) {
-        console.log("wait");
-      }
-    }
+    game.setDecoy(decoyData);
   },
-  
+ 
   gameOver() {
     if (this.hitScore <= 0) {
       image(
@@ -491,7 +471,7 @@ const game = {
   restart() {
     game.initialize();
   },
-  
+ 
   getEnemies() {
     return this.enemies;
   },
