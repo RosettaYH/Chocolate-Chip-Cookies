@@ -257,9 +257,11 @@ const game = {
     totalSeconds = 0;
     isPlaying = true;
   },
+  
   mouseMoved() {
     Object.assign(this.mouse, { x: mouseX, y: mouseY });
   },
+  
   update(playerOtherData) {
     this.field.clear();
 
@@ -293,6 +295,7 @@ const game = {
     game.checkDecoyCollision();
     game.gameOver();
   },
+  
   didHit() {
     for (let enemy of this.enemies) {
       let numHit = 0;
@@ -321,6 +324,7 @@ const game = {
       }
     }
   },
+  
   didBoost() {
     let numHit = 0;
     if (frameCount % (300 * level) === 0 && isPlaying) {
@@ -365,6 +369,7 @@ const game = {
       this.boostExists = false;
     }
   },
+  
   checkEnemyCollision() {
     for (let i = 0; i < this.enemies.length; i++) {
       for (let j = i + 1; j < this.enemies.length; j++) {
@@ -383,6 +388,7 @@ const game = {
       }
     }
   },
+  
   adjustEnemies(enemy1, enemy2) {
     let adjustment = 0.5;
     if (enemy1.x > enemy2.x) {
@@ -399,6 +405,7 @@ const game = {
       enemy2.y += adjustment;
     }
   },
+  
   checkDecoyCollision() {
     if (this.decoy.exists) {
       for (let i = 0; i < this.enemies.length; i++) {
@@ -417,11 +424,13 @@ const game = {
       }
     }
   },
+  
   hoverEnemy(enemy, speed) {
     let adjustment = 1;
     enemy.x += adjustment;
     enemy.y += adjustment;
   },
+  
   mouseClicked(decoyData) {
     if (
       mouseX >= jarField.start &&
@@ -451,6 +460,7 @@ const game = {
       }
     }
   },
+  
   gameOver() {
     if (this.hitScore <= 0) {
       image(
@@ -477,12 +487,15 @@ const game = {
       isPlaying = false;
     }
   },
+  
   restart() {
     game.initialize();
   },
+  
   getEnemies() {
     return this.enemies;
   },
+  
   setEnemies(data) {
     console.log(data);
   }
