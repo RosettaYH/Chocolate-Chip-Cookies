@@ -17,6 +17,7 @@ function loadLevels() {
 
 function levelClicked(levelId) {
   level = parseInt(levelId.slice(-1));
+  console.log(`level clicked: ${level}`)
   totalSeconds = 0;
   isPlaying = true;
 }

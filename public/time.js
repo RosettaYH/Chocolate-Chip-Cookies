@@ -12,10 +12,5 @@ function setTime() {
 }
 
 function convertString(val) {
-  var valString = val + "";
-  if (valString.length < 2) {
-    return "0" + valString;
-  } else {
-    return valString;
-  }
+  return String(val).padStart(2, "0")
 }
