@@ -117,11 +117,11 @@ class Player extends Agent {
 class Enemy extends Agent {
   draw() {
     image(
-      chocolateImage,
-      this.x - chocolateImage.width / 4,
-      this.y - chocolateImage.height / 4,
-      chocolateImage.width / 2,
-      chocolateImage.height / 2
+      chocolateChipImage,
+      this.x - chocolateChipImage.width / 4,
+      this.y - chocolateChipImage.height / 4,
+      chocolateChipImage.width / 2,
+      chocolateChipImage.height / 2
     );
   }
 }
