@@ -1,5 +1,5 @@
 let plainCookieImage;
-let chocolateImage;
+let chocolateChipImage;
 let darkChocolateCookieImage;
 let chocolateChipCookieImage;
 let sugarImage;
@@ -10,7 +10,7 @@ function preload() {
   plainCookieImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fplain.png?v=1607118020766"
   );
-  chocolateImage = loadImage(
+  chocolateChipImage = loadImage(
     "https://cdn.glitch.com/12927324-6667-4250-8271-1ac90bc20e49%2Fchocolate.png?v=1607118506469"
   );
   darkChocolateCookieImage = loadImage(
