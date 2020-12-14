@@ -1,5 +1,6 @@
 const healthProgress = document.querySelector("#healthProgress");
 const decoyProgress = document.querySelector("#decoyProgress");
+const scaleFactor = 2.5
 
 let jarField = {};
 
@@ -8,11 +9,10 @@ let isPlaying = false;
 function setup() {
   game.initialize();
   jarField = {
-    start: jarImage.width / 2.5,
-    end: jarImage.width * 2.5 + jarImage.width / 2.5
+    start: jarImage.width / scaleFactor,
+    end: jarImage.width * scaleFactor + jarImage.width / scaleFactor
   };
   socket = io.connect("https://rosettayh.github.io/Chocolate-Chip-Cookies/");
-  //socket.on("getNumber", updateNumber)
   socket.on("player", updatePlayer);
   socket.on("decoy", updateDecoy);
   socket.on("enemies", updateEnemies);
@@ -23,9 +23,6 @@ function draw() {
   game.update("");
 }
 
-function updateNumber(data) {
-  //console.log(data)
-}
 function updatePlayer(data) {
   console.log("player" + data)
   game.update(data);
@@ -67,17 +64,17 @@ class Field {
     background(this.color);
     image(
       jarImage,
-      jarImage.width / 2.5,
+      jarImage.width / scaleFactor,
       jarImage.height / 8,
-      jarImage.width * 2.5,
+      jarImage.width * scaleFactor,
       jarImage.height * 2
     );
     fill("rgba(231, 244, 250, 0.5)");
     rect(
-      jarImage.width / 2.5,
-      jarImage.width / 2.5,
-      jarImage.width * 2.5,
-      jarImage.width * 2.5,
+      jarImage.width / scaleFactor,
+      jarImage.width / scaleFactor,
+      jarImage.width * scaleFactor,
+      jarImage.width * scaleFactor,
       160
     );
   }
