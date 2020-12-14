@@ -1,8 +1,6 @@
 let mode = 0;
 
-$(document).ready(function() {
-  loadModes();
-});
+$(document).ready(loadModes())
 
 function loadModes() {
   let singleButton = document.createElement("button");
