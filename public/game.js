@@ -15,7 +15,7 @@ function setup() {
   socket = io.connect("https://rosettayh.github.io/Chocolate-Chip-Cookies/");
   socket.on("player", updatePlayer);
   socket.on("decoy", updateDecoy);
-  socket.on("enemies", updateEnemies);
+//  socket.on("enemies", updateEnemies);
 }
 
 function draw() {
@@ -32,10 +32,10 @@ function updateDecoy(data) {
   game.mouseClicked(data);
 }
 
-function updateEnemies(data) {
-  console.log(data);
-  game.setEnemies(data);
-}
+// function updateEnemies(data) {
+//   console.log(data);
+//   game.setEnemies(data);
+// }
 
 function mouseMoved() {
   game.mouseMoved();
