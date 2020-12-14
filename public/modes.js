@@ -26,7 +26,6 @@ function loadModes() {
 
 function modeClicked(modeId) {
   mode = parseInt(modeId.slice(-1));
-  console.log(mode);
   if (level !== 0) {
     game.initialize();
   }
