@@ -1,9 +1,7 @@
 let level = 0;
 const levelNumber = 3;
 
-$(document).ready(function() {
-  loadLevels();
-});
+$(document).ready(loadLevels())
 
 function loadLevels() {
   for (let i = 0; i < levelNumber; i++) {
@@ -19,7 +17,6 @@ function loadLevels() {
 
 function levelClicked(levelId) {
   level = parseInt(levelId.slice(-1));
-  console.log(level)
   totalSeconds = 0;
   isPlaying = true;
 }
