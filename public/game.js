@@ -12,7 +12,7 @@ function setup() {
     start: jarImage.width / scaleFactor,
     end: jarImage.width * scaleFactor + jarImage.width / scaleFactor
   };
-  socket = io.connect("https://cmsi-185-hw6.glitch.me/");
+  socket = io.connect("https://rosettayh.github.io/Chocolate-Chip-Cookies/");
   socket.on("player", updatePlayer);
   socket.on("decoy", updateDecoy);
   socket.on("enemies", updateEnemies);
